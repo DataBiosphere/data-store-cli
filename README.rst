@@ -7,7 +7,7 @@ The DSS CLI is compatible with Python versions 3.5+.
 
 Installation
 ------------
-:code:`pip install hca`.
+:code:`pip install dss`.
 
 Usage
 -----
