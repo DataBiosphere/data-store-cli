@@ -21,9 +21,9 @@ import requests
 from atomicwrites import atomic_write
 from requests.exceptions import ChunkedEncodingError, ConnectionError, ReadTimeout
 
-from hca.dss.util import iter_paths, object_name_builder, hardlink, atomic_overwrite
+from dss.dss.util import iter_paths, object_name_builder, hardlink, atomic_overwrite
 from glob import escape as glob_escape
-from hca.util import tsv
+from dss.util import tsv
 from ..util import SwaggerClient, DEFAULT_THREAD_COUNT
 from ..util.exceptions import SwaggerAPIException
 from .. import logger
@@ -74,7 +74,7 @@ class DSSClient(SwaggerClient):
     Client for the Data Storage Service API
     """
     # Note: there are more API methods available than are defined here.
-    # See docstring in ``hca/util/__init__.py``.
+    # See docstring in ``dss/util/__init__.py``.
     UPLOAD_BACKOFF_FACTOR = 1.618
     threads = DEFAULT_THREAD_COUNT
 
@@ -281,9 +281,9 @@ class DSSClient(SwaggerClient):
             file
         :param str download_dir: The directory into which to download
 
-        Files are always downloaded to a cache / filestore directory called '.hca'. This directory is created in the
+        Files are always downloaded to a cache / filestore directory called '.dss'. This directory is created in the
         current directory where download is initiated. A copy of the manifest used is also written to the current
-        directory. This manifest has an added column that lists the paths of the files within the '.hca' filestore.
+        directory. This manifest has an added column that lists the paths of the files within the '.dss' filestore.
 
         The default layout is **none**. In this layout all of the files are downloaded to the filestore and the
         recommended way of accessing the files in by parsing the manifest copy that's written to the download
@@ -691,7 +691,7 @@ class DownloadContext(object):
         """
         checksum = checksum.lower()
         file_prefix = '_'.join(['files'] + list(map(str, cls.DIRECTORY_NAME_LENGTHS)))
-        path_pieces = [download_dir, '.hca', 'v2', file_prefix]
+        path_pieces = [download_dir, '.dss', 'v2', file_prefix]
         checksum_index = 0
         assert(sum(cls.DIRECTORY_NAME_LENGTHS) <= len(checksum))
         for prefix_length in cls.DIRECTORY_NAME_LENGTHS:
@@ -729,7 +729,7 @@ class ManifestDownloadContext(DownloadContext):
         with self.runner:
             self._download_manifest_tasks(no_metadata, no_data)
         self._write_output_manifest()
-        logger.info('Primary copies of the files have been downloaded to `.hca` and linked '
+        logger.info('Primary copies of the files have been downloaded to `.dss` and linked '
                     'into per-bundle subdirectories of the current directory.')
 
     def _download_manifest_tasks(self, no_metadata, no_data):

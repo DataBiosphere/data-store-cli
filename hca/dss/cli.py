@@ -2,7 +2,7 @@ from . import DSSClient
 
 
 def add_commands(subparsers, help_menu=False):
-    dss_parser = subparsers.add_parser('dss', help="Interact with the HCA Data Storage System")
+    dss_parser = subparsers.add_parser('dss', help="Interact with the Data Storage System")
 
     def help(args):
         dss_parser.print_help()
