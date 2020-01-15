@@ -7,7 +7,12 @@ The DSS CLI is compatible with Python versions 3.5+.
 
 Installation
 ------------
-:code:`pip install dss`.
+
+Start by creating a virtual environment. Then run::
+
+    python setup.py build
+    python setup.py install
+
 
 Usage
 -----
