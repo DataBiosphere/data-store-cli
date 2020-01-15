@@ -1,8 +1,8 @@
-from hca.upload import UploadConfig
+from dss.upload import UploadConfig
 
-from hca.upload.lib.upload_submission_state import UploadAreaFilesStatusCheck
+from dss.upload.lib.upload_submission_state import UploadAreaFilesStatusCheck
 
-from hca.upload.cli.common import UploadCLICommand
+from dss.upload.cli.common import UploadCLICommand
 
 
 class GenerateStatusReportCommand(UploadCLICommand):

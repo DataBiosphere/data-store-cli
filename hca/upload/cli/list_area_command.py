@@ -1,4 +1,4 @@
-from hca.upload import UploadService, UploadConfig
+from dss.upload import UploadService, UploadConfig
 from .common import UploadCLICommand
 
 

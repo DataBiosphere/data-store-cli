@@ -1,4 +1,4 @@
-from hca.upload import UploadException, UploadAreaURI, UploadConfig
+from dss.upload import UploadException, UploadAreaURI, UploadConfig
 from .common import UploadCLICommand
 
 

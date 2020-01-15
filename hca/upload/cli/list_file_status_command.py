@@ -1,9 +1,9 @@
 import re
 
-from hca.upload import UploadConfig
+from dss.upload import UploadConfig
 
-from hca.upload.cli.common import UploadCLICommand
-from hca.upload.lib.upload_submission_state import FileStatusCheck
+from dss.upload.cli.common import UploadCLICommand
+from dss.upload.lib.upload_submission_state import FileStatusCheck
 
 
 class ListFileStatusCommand(UploadCLICommand):

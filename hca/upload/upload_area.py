@@ -3,7 +3,7 @@ import os
 
 from dcplib.media_types import DcpMediaType
 
-from hca.util.pool import ThreadPool
+from dss.util.pool import ThreadPool
 from .lib.client_side_checksum_handler import ClientSideChecksumHandler
 from .lib.credentials_manager import CredentialsManager
 from .exceptions import UploadException
@@ -133,7 +133,8 @@ class UploadArea:
             error = "\nThe following files failed:"
             for k, v in self.s3agent.failed_uploads.items():
                 error += "\n%s: [Exception] %s" % (k, v)
-            error += "\nPlease retry or contact an hca administrator at data-help@humancellatlas.org for help.\n"
+            ghurl = "https://github.com/DataBiosphere/data-store-cli/issues/new"
+            error += "\nPlease retry or open an issue (%s) for help.\n"%(ghurl)
             raise UploadException(error)
 
     def validate_files(self, file_list, validator_image, original_validation_id="", environment={}):

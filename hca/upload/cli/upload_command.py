@@ -3,7 +3,7 @@ import sys
 
 import boto3
 
-from hca.upload import UploadService
+from dss.upload import UploadService
 from .common import UploadCLICommand
 
 

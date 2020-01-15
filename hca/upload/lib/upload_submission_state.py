@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from hca.upload.lib.api_client import ApiClient
+from dss.upload.lib.api_client import ApiClient
 
 
 class UploadAreaFilesStatusCheck(object):
