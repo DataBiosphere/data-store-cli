@@ -50,7 +50,7 @@ Service to Service Authorization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Google service credentials must be whitelisted before they will authenticate with the DSS CLI.
 
-Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of your Google service credentials file to
+Set the environment variable ``GOOGLE_APPLICATION_CREDENTIALS`` to the path of your Google service credentials file to
 authenticate.
 
 One can also use: ``dss login``.
