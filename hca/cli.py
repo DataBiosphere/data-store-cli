@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-Human Cell Atlas Command Line Interface
+Data Storage System Command Line Interface
 
 For general help, run ``{prog} help``.
 For help with individual commands, run ``{prog} <command> --help``.
@@ -23,10 +23,10 @@ from .dss import cli as dss_cli
 from .upload import cli as upload_cli
 from .query import cli as query_cli
 from .auth import cli as auth_cli
-from . import logger, get_config, clear_hca_cache
+from . import logger, get_config, clear_dss_cache
 
 
-class HCAArgumentParser(argparse.ArgumentParser):
+class DSSArgumentParser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         argparse.ArgumentParser.__init__(self, *args, **kwargs)
         self._subparsers = None
@@ -47,7 +47,7 @@ class HCAArgumentParser(argparse.ArgumentParser):
         formatted_help = self.format_help()
         formatted_help = formatted_help.replace('positional arguments:', 'Positional Arguments:')
         formatted_help = formatted_help.replace('optional arguments:', 'Optional Arguments:')
-        formatted_help = formatted_help.replace('{prog}', 'hca')  # not converted from the swagger proper
+        formatted_help = formatted_help.replace('{prog}', 'dss')  # not converted from the swagger proper
         print(formatted_help)
         self.exit()
 
@@ -57,16 +57,16 @@ def check_if_release_is_current(log):
     if __version__.endswith('dev'):
         return
     client = xmlrpclib.ServerProxy('https://pypi.python.org/pypi')
-    latest_pypi_version = client.package_releases('hca')
+    latest_pypi_version = client.package_releases('dss')
 
     latest_version_nums = [int(i) for i in latest_pypi_version[0].split('.')]
     this_version_nums = [int(i) for i in __version__.split('.')]
     for i in range(max([len(latest_version_nums), len(this_version_nums)])):
         try:
             if this_version_nums[i] < latest_version_nums[i]:
-                log.warning('WARNING: Python (pip) package "hca" is not up-to-date!\n'
-                            'You have hca version:              ' + str(__version__) + '\n'
-                            'Please use the latest hca version: ' + str(latest_pypi_version[0]))
+                log.warning('WARNING: Python (pip) package "dss" is not up-to-date!\n'
+                            'You have dss version:              ' + str(__version__) + '\n'
+                            'Please use the latest dss version: ' + str(latest_pypi_version[0]))
             # handles the odd case where a user's current __version__ is higher than PyPi's
             elif this_version_nums[i] > latest_version_nums[i]:
                 break
@@ -76,7 +76,7 @@ def check_if_release_is_current(log):
 
 
 def get_parser(help_menu=False):
-    parser = HCAArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+    parser = DSSArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     version_string = "%(prog)s {version} ({python_impl} {python_version} {platform})"
     parser.add_argument("--version", action="version", version=version_string.format(
         version=__version__,
@@ -87,7 +87,7 @@ def get_parser(help_menu=False):
     parser.add_argument("--log-level", default=get_config().get("log_level"),
                         help=str([logging.getLevelName(i) for i in range(10, 60, 10)]),
                         choices={logging.getLevelName(i) for i in range(10, 60, 10)})
-    parser.add_parser_func(clear_hca_cache, help=clear_hca_cache.__doc__)
+    parser.add_parser_func(clear_dss_cache, help=clear_dss_cache.__doc__)
 
     def help(args):
         """Print help message"""
