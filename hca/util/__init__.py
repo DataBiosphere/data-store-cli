@@ -274,8 +274,8 @@ class SwaggerClient(object):
 
     @staticmethod
     def _audience(self):
-        return _deep_get(self.swagger_spec,["securityDefinitions","OauthSecurity","x-audience"]) or \
-               "https://auth.ucsc-cgp-redwood.org"
+        return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
+            "https://auth.ucsc-cgp-redwood.org"
 
     @staticmethod
     @property
@@ -684,6 +684,7 @@ def _merge_dict(source, destination):
             destination[key] = value
     return destination
 
-def _deep_get(src_dict : dict, keys : list):
-    """ performs deep retrieval of value from dictionary object"""
+
+def _deep_get(src_dict: dict, keys: list):
+    """Performs deep retrieval of value from dictionary object"""
     return reduce(lambda d, key: d.get(key) if d else None, keys, src_dict)
