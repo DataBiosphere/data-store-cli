@@ -673,6 +673,6 @@ def _merge_dict(source, destination):
             destination[key] = value
     return destination
 
-def _deep_get(src_dict : dict, values : list):
+def _deep_get(src_dict : dict, keys : list):
     """ performs deep retrieval of value from dictionary object"""
-    return reduce(operator.getitem, values, src_dict)
+    return reduce(lambda d, key: d.get(key) if d else None, keys, src_dict)
