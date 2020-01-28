@@ -103,6 +103,7 @@ from jsonpointer import resolve_pointer
 from threading import Lock
 from argparse import RawTextHelpFormatter
 from dcplib.networking import Session
+from functools import reduce
 
 from .. import get_config, logger
 from .exceptions import SwaggerAPIException, SwaggerClientInternalError
@@ -241,7 +242,7 @@ class SwaggerClient(object):
         "array": typing.List,
         "object": typing.Mapping
     }
-    _audience = "https://dev.data.humancellatlas.org/"  # TODO derive from swagger
+
     # The read timeout should be longer than DSS' API Gateway timeout to avoid races with the client and the gateway
     # hanging up at the same time. It's better to consistently get a 504 from the server than a read timeout from the
     # client or sometimes one and sometimes the other.
@@ -270,6 +271,11 @@ class SwaggerClient(object):
         for http_path, path_data in self.swagger_spec["paths"].items():
             for http_method, method_data in path_data.items():
                 self._build_client_method(http_method, http_path, method_data)
+
+    @staticmethod
+    def _audience(self):
+        return _deep_get(self.swagger_spec,["securityDefinitions","OauthSecurity","x-audience"]) or \
+               "https://auth.ucsc-cgp-redwood.org"
 
     @staticmethod
     def load_swagger_json(swagger_json, ptr_str="$ref"):
@@ -388,7 +394,7 @@ class SwaggerClient(object):
                 from google_auth_oauthlib.flow import InstalledAppFlow
                 flow = InstalledAppFlow.from_client_config(self.application_secrets, scopes=scopes)
                 msg = "Authentication successful. Please close this tab and run HCA CLI commands in the terminal."
-                credentials = flow.run_local_server(success_message=msg, audience=self._audience)
+                credentials = flow.run_local_server(success_message=msg, audience=self._audience())
 
         # TODO: (akislyuk) test token autorefresh on expiration
         self.config.oauth2_token = dict(access_token=credentials.token,
@@ -433,13 +439,13 @@ class SwaggerClient(object):
         exp = iat + self.token_expiration
         payload = {'iss': service_credentials["client_email"],
                    'sub': service_credentials["client_email"],
-                   'aud': self._audience,
+                   'aud': self._audience(),
                    'iat': iat,
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   'https://auth.data.humancellatlas.org/group': 'hca',
-                   'https://auth.data.humancellatlas.org/email': service_credentials["client_email"]
+                   'https://auth.ucsc.ucsc-cgp-redwood.org/group': 'hca',
+                   'https://auth.ucsc.ucsc-cgp-redwood.org/email': service_credentials["client_email"]
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
         signed_jwt = jwt.encode(payload, service_credentials["private_key"], headers=additional_headers,
@@ -665,3 +671,7 @@ def _merge_dict(source, destination):
         else:
             destination[key] = value
     return destination
+
+def _deep_get(src_dict : dict, keys : list):
+    """ performs deep retrieval of value from dictionary object"""
+    return reduce(lambda d, key: d.get(key) if d else None, keys, src_dict)
