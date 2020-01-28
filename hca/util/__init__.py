@@ -278,6 +278,18 @@ class SwaggerClient(object):
                "https://auth.ucsc-cgp-redwood.org"
 
     @staticmethod
+    @property
+    def email_claim(self):
+        return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-email-claim']) or \
+            urljoin(self._audience(), 'email')
+
+    @staticmethod
+    @property
+    def group_claim(self):
+        return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-group-claim']) or \
+            urljoin(self._audience(), 'group')
+
+    @staticmethod
     def load_swagger_json(swagger_json, ptr_str="$ref"):
         """
         Load the Swagger JSON and resolve {"$ref": "#/..."} internal JSON Pointer references.
@@ -444,8 +456,8 @@ class SwaggerClient(object):
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   'https://auth.ucsc.ucsc-cgp-redwood.org/group': 'hca',
-                   'https://auth.ucsc.ucsc-cgp-redwood.org/email': service_credentials["client_email"]
+                   self.group_claim: 'hca',
+                   self.email_claim: service_credentials['client_email']
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
         signed_jwt = jwt.encode(payload, service_credentials["private_key"], headers=additional_headers,
