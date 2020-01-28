@@ -93,7 +93,6 @@ import time
 import jwt
 import requests
 import jmespath
-import operator
 
 from inspect import signature, Parameter
 from requests.adapters import HTTPAdapter, DEFAULT_POOLSIZE
