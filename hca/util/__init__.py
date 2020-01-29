@@ -277,13 +277,11 @@ class SwaggerClient(object):
         return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
             "https://auth.ucsc-cgp-redwood.org"
 
-    @staticmethod
     @property
     def email_claim(self):
         return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-email-claim']) or \
             urljoin(self._audience(), 'email')
 
-    @staticmethod
     @property
     def group_claim(self):
         return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-group-claim']) or \
