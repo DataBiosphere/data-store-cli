@@ -273,8 +273,18 @@ class SwaggerClient(object):
                 self._build_client_method(http_method, http_path, method_data)
 
     def _audience(self):
-        return _deep_get(self.swagger_spec,["securityDefinitions","OauthSecurity","x-audience"]) or \
-               "https://auth.ucsc-cgp-redwood.org"
+        return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
+            "https://auth.ucsc-cgp-redwood.org"
+
+    @property
+    def email_claim(self):
+        return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-email-claim']) or \
+            urljoin(self._audience(), 'email')
+
+    @property
+    def group_claim(self):
+        return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-group-claim']) or \
+            urljoin(self._audience(), 'group')
 
     @staticmethod
     def load_swagger_json(swagger_json, ptr_str="$ref"):
@@ -443,8 +453,8 @@ class SwaggerClient(object):
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   'https://auth.ucsc.ucsc-cgp-redwood.org/group': 'hca',
-                   'https://auth.ucsc.ucsc-cgp-redwood.org/email': service_credentials["client_email"]
+                   self.group_claim: 'hca',
+                   self.email_claim: service_credentials['client_email']
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
         signed_jwt = jwt.encode(payload, service_credentials["private_key"], headers=additional_headers,
@@ -671,6 +681,7 @@ def _merge_dict(source, destination):
             destination[key] = value
     return destination
 
-def _deep_get(src_dict : dict, keys : list):
-    """ performs deep retrieval of value from dictionary object"""
+
+def _deep_get(src_dict: dict, keys: list):
+    """Performs deep retrieval of value from dictionary object"""
     return reduce(lambda d, key: d.get(key) if d else None, keys, src_dict)
