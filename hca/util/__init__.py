@@ -272,7 +272,6 @@ class SwaggerClient(object):
             for http_method, method_data in path_data.items():
                 self._build_client_method(http_method, http_path, method_data)
 
-    @staticmethod
     def _audience(self):
         return _deep_get(self.swagger_spec,["securityDefinitions","OauthSecurity","x-audience"]) or \
                "https://auth.ucsc-cgp-redwood.org"
