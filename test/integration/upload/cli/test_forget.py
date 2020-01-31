@@ -9,8 +9,8 @@ from argparse import Namespace
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-from hca.upload import UploadConfig
-from hca.upload.cli.forget_command import ForgetCommand
+from dbio.upload import UploadConfig
+from dbio.upload.cli.forget_command import ForgetCommand
 from test import CapturingIO
 from test.integration.upload import UploadTestCase
 

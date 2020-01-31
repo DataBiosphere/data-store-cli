@@ -10,7 +10,7 @@ pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '
 sys.path.insert(0, pkg_root)  # noqa
 
 import hca
-from hca.upload import UploadConfig, UploadAreaURI, UploadException
+from dbio.upload import UploadConfig, UploadAreaURI, UploadException
 from test.integration.upload import UploadTestCase
 
 
@@ -24,7 +24,7 @@ class TestUploadConfig(UploadTestCase):
             self.a_uuid: {'uri': self._make_area_uri(area_uuid=self.a_uuid)},
             self.b_uuid: {'uri': self._make_area_uri(area_uuid=self.b_uuid)},
         }
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': self.areas_config,
             'current_area': self.a_uuid,
@@ -38,7 +38,7 @@ class TestUploadConfig(UploadTestCase):
         self.assertEqual(sorted([self.a_uuid, self.b_uuid]), sorted(UploadConfig().areas))
 
     def test_areas__when_the_upload_tweak_config_is_not_setup__does_not_error(self):
-        config = hca.get_config()
+        config = dbio.get_config()
         if 'upload' in config:
             del config['upload']
         try:
@@ -61,7 +61,7 @@ class TestUploadConfig(UploadTestCase):
     def test_area_uri(self):
         area_uuid = str(uuid.uuid4())
         uri = self._make_area_uri(area_uuid)
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {area_uuid: {'uri': uri}},
         }
@@ -80,7 +80,7 @@ class TestUploadConfig(UploadTestCase):
 
         config.add_area(uri)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertIn(new_area_uuid, config.upload.areas.keys())
         self.assertEqual({'uri': new_area_uri}, config.upload.areas[new_area_uuid])
 
@@ -90,7 +90,7 @@ class TestUploadConfig(UploadTestCase):
 
         upload_config.select_area(self.b_uuid)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertEqual(self.b_uuid, config.upload.current_area)
 
     def test_forget_area(self):
@@ -99,7 +99,7 @@ class TestUploadConfig(UploadTestCase):
 
         upload_config.forget_area(self.a_uuid)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertEqual([self.b_uuid], list(config.upload.areas))
         self.assertEqual(None, config.upload.current_area)
 
@@ -110,7 +110,7 @@ class TestUploadConfig(UploadTestCase):
     def test_area_uuid_from_partial_uuid__when_given_a_partial_matching_several_areas__raises(self):
         uuid1 = '11111111-1111-1111-1111-111111111111'
         uuid2 = '11111111-2222-2222-2222-222222222222'
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {
                 uuid1: {'uri': "s3://foo/{}/".format(uuid1)},
@@ -125,7 +125,7 @@ class TestUploadConfig(UploadTestCase):
     def test_area_uuid_from_partial_uuid__when_given_a_single_partial__returns_uuid(self):
         uuid1 = '11111111-1111-1111-1111-111111111111'
         uuid2 = '22222222-2222-2222-2222-222222222222'
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {
                 uuid1: {'uri': "s3://foo/{}/".format(uuid1)},

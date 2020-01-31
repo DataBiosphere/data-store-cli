@@ -7,8 +7,8 @@ import boto3
 from moto import mock_s3, mock_sts
 import responses
 
-import hca
-from hca.upload import UploadService, UploadConfig, UploadAreaURI
+import dbio
+from dbio.upload import UploadService, UploadConfig, UploadAreaURI
 from test import TweakResetter
 
 
@@ -82,7 +82,7 @@ class UploadTestCase(unittest.TestCase):
         return creds_url
 
     def _setup_tweak_config(self):
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {},
             'bucket_name_template': self.UPLOAD_BUCKET_NAME_TEMPLATE

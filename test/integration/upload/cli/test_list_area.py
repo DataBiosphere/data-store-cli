@@ -13,7 +13,7 @@ sys.path.insert(0, pkg_root)  # noqa
 
 from test import CapturingIO
 from test.integration.upload import UploadTestCase
-from hca.upload.cli.list_area_command import ListAreaCommand
+from dbio.upload.cli.list_area_command import ListAreaCommand
 
 
 class TestUploadListAreaCommand(UploadTestCase):

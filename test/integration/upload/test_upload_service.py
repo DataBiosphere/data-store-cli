@@ -9,7 +9,7 @@ from mock import Mock, patch
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-from hca.upload import UploadService, UploadAreaURI, UploadArea
+from dbio.upload import UploadService, UploadAreaURI, UploadArea
 from test.integration.upload import UploadTestCase
 
 
@@ -21,7 +21,7 @@ class TestUploadService(UploadTestCase):
         self.upload_service = UploadService(deployment_stage=self.deployment_stage, api_token=self.api_key)
 
     def test_create_area(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             area_uuid = str(uuid.uuid4())
             area_uri_str = 's3://bogobucket/{uuid}/'.format(uuid=area_uuid)
             mock_create_area = Mock(return_value={'uri': area_uri_str})

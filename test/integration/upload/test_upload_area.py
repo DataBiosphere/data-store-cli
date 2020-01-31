@@ -14,8 +14,8 @@ sys.path.insert(0, pkg_root)  # noqa
 
 from test import TEST_DIR
 from test.integration.upload import UploadTestCase
-from hca.upload.lib.s3_agent import WRITE_PERCENT_THRESHOLD
-from hca.upload import UploadAreaURI, UploadService
+from dbio.upload.lib.s3_agent import WRITE_PERCENT_THRESHOLD
+from dbio.upload import UploadAreaURI, UploadService
 
 
 class TestUploadArea(UploadTestCase):
@@ -41,7 +41,7 @@ class TestUploadArea(UploadTestCase):
         self.assertIn('expiry_time', creds)
 
     def test_delete(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             mock_delete_area = Mock(return_value=True)
             mock_api_client = Mock(delete_area=mock_delete_area)
             mock_api_client_class.return_value = mock_api_client
@@ -52,7 +52,7 @@ class TestUploadArea(UploadTestCase):
             mock_delete_area.assert_called_once_with(area_uuid=area.uuid)
 
     def test_exists(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             mock_area_exists = Mock(return_value=False)
             mock_api_client = Mock(area_exists=mock_area_exists)
             mock_api_client_class.return_value = mock_api_client
@@ -64,7 +64,7 @@ class TestUploadArea(UploadTestCase):
             self.assertFalse(result)
 
     def test_validate_files(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             validation_id = "validation234"
             mock_validate_files_method = Mock(return_value=validation_id)
             mock_api_client = Mock(validate_files=mock_validate_files_method)
@@ -87,7 +87,7 @@ class TestUploadArea(UploadTestCase):
             self.assertEqual(validation_id, result)
 
     def test_store_file(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             file_info = {'files': 'info'}
             mock_store_file_method = Mock(return_value=file_info)
             mock_api_client = Mock(store_file=mock_store_file_method)
@@ -107,7 +107,7 @@ class TestUploadArea(UploadTestCase):
             self.assertEqual(file_info, result)
 
     def test_checksum_status(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             checksum_status = {'checksum': 'status'}
             mock_checksum_status_method = Mock(return_value=checksum_status)
             mock_api_client = Mock(checksum_status=mock_checksum_status_method)
@@ -123,7 +123,7 @@ class TestUploadArea(UploadTestCase):
             self.assertEqual(checksum_status, result)
 
     def test_validation_status(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             validation_status = {'validation': 'status'}
             mock_validation_status_method = Mock(return_value=validation_status)
             mock_api_client = Mock(validation_status=mock_validation_status_method)
@@ -139,7 +139,7 @@ class TestUploadArea(UploadTestCase):
             self.assertEqual(validation_status, result)
 
     def test_checksum_statuses(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             checksum_statuses = {'checksum': 'statuses'}
             mock_checksum_statuses_method = Mock(return_value=checksum_statuses)
             mock_api_client = Mock(checksum_statuses=mock_checksum_statuses_method)
@@ -153,7 +153,7 @@ class TestUploadArea(UploadTestCase):
             self.assertEqual(checksum_statuses, result)
 
     def test_validation_statuses(self):
-        with patch('hca.upload.upload_service.ApiClient') as mock_api_client_class:
+        with patch('dbio.upload.upload_service.ApiClient') as mock_api_client_class:
             validation_statuses = {'validation': 'statuses'}
             mock_validation_statuses_method = Mock(return_value=validation_statuses)
             mock_api_client = Mock(validation_statuses=mock_validation_statuses_method)

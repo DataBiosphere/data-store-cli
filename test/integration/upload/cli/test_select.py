@@ -10,8 +10,8 @@ from argparse import Namespace
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca
-from hca.upload.cli.select_command import SelectCommand
+import dbio
+from dbio.upload.cli.select_command import SelectCommand
 from test import CapturingIO
 from test.integration.upload import UploadTestCase
 
@@ -28,7 +28,7 @@ class TestUploadCliSelectCommand(UploadTestCase):
             args = Namespace(uri_or_alias=self._uri)
             SelectCommand(args)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertIn(self._area_uuid, config.upload.areas)
         self.assertEqual(self._uri, config.upload.areas[self._area_uuid]['uri'])
         self.assertEqual(self._area_uuid, config.upload.current_area)
@@ -39,13 +39,13 @@ class TestUploadCliSelectCommand(UploadTestCase):
             args = Namespace(uri_or_alias=uri_without_slash)
             SelectCommand(args)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertIn(self._area_uuid, config.upload.areas)
         self.assertEqual(self._uri, config.upload.areas[self._area_uuid]['uri'])
         self.assertEqual(self._area_uuid, config.upload.current_area)
 
     def test_when_given_a_uri_it_prints_an_alias(self):
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {
                 'deadbeef-dead-dead-dead-beeeeeeeeeef': {
@@ -65,7 +65,7 @@ class TestUploadCliSelectCommand(UploadTestCase):
 
     def test_when_given_an_alias_that_matches_no_areas_it_prints_a_warning(self):
 
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {'areas': {}}
         config.save()
 
@@ -76,7 +76,7 @@ class TestUploadCliSelectCommand(UploadTestCase):
         self.assertRegex(stdout.captured(), "don't recognize area")
 
     def test_when_given_an_alias_that_matches_more_than_one_area_it_prints_a_warning(self):
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {
                 'deadbeef-dead-dead-dead-beeeeeeeeeef': {'uri': 's3://bucket/deadbeef-dead-dead-dead-beeeeeeeeeef/'},
@@ -94,7 +94,7 @@ class TestUploadCliSelectCommand(UploadTestCase):
     def test_when_given_an_alias_that_matches_one_area_it_selects_it(self):
         a_uuid = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
         b_uuid = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
-        config = hca.get_config()
+        config = dbio.get_config()
         config.upload = {
             'areas': {
                 a_uuid: {'uri': "s3://org-humancellatlas-upload-bogo/%s/" % (a_uuid,)},
@@ -107,7 +107,7 @@ class TestUploadCliSelectCommand(UploadTestCase):
             args = Namespace(uri_or_alias='bbb')
             SelectCommand(args)
 
-        config = hca.get_config()
+        config = dbio.get_config()
         self.assertEqual(b_uuid, config.upload.current_area)
 
 

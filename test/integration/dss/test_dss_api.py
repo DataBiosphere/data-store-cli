@@ -4,7 +4,7 @@ import errno
 from concurrent.futures import ThreadPoolExecutor
 import datetime
 import filecmp
-from hca.util import tsv
+from dbio.util import tsv
 import itertools
 import os
 import sys
@@ -16,8 +16,8 @@ from fnmatch import fnmatchcase
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca.dss
-from hca.dss.util import iter_paths, object_name_builder
+import dbio.dss
+from dbio.dss.util import iter_paths, object_name_builder
 from test import reset_tweak_changes, TEST_DIR
 
 
@@ -26,12 +26,12 @@ class TestDssApi(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.client = hca.dss.DSSClient()
+        cls.client = dbio.dss.DSSClient()
 
     def test_set_host(self):
         with tempfile.TemporaryDirectory() as home:
             with unittest.mock.patch.dict(os.environ, HOME=home):
-                dev = hca.dss.DSSClient(
+                dev = dbio.dss.DSSClient(
                     swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
                 self.assertEqual("dss.dev.data.humancellatlas.org", dev._swagger_spec['host'])
 
@@ -44,7 +44,7 @@ class TestDssApi(unittest.TestCase):
                     with unittest.mock.patch.dict(os.environ, XDG_CONFIG_HOME=config_dir):
 
                         def f(_):
-                            dev = hca.dss.DSSClient(
+                            dev = dbio.dss.DSSClient(
                                 swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
                             self.assertEqual('dss.dev.data.humancellatlas.org', dev._swagger_spec['host'])
 
@@ -56,7 +56,7 @@ class TestDssApi(unittest.TestCase):
         bundle_path = os.path.join(TEST_DIR, "upload", "data")
         uploaded_paths = [x.path for x in iter_paths(str(bundle_path))]
         uploaded_files = [object_name_builder(p, bundle_path) for p in uploaded_paths]
-        client = hca.dss.DSSClient(swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
+        client = dbio.dss.DSSClient(swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
 
         manifest = client.upload(src_dir=bundle_path,
                                  replica="aws",
@@ -209,7 +209,7 @@ class TestDssApi(unittest.TestCase):
                 fh.write(os.urandom(64 * 1024 * 1024 + 1))
                 fh.flush()
 
-                client = hca.dss.DSSClient()
+                client = dbio.dss.DSSClient()
                 bundle_output = client.upload(src_dir=src_dir, replica="aws", staging_bucket=self.staging_bucket)
 
                 client.download(bundle_output['bundle_uuid'], replica="aws", download_dir=dest_dir)
@@ -261,7 +261,7 @@ class TestDssApi(unittest.TestCase):
     def test_python_subscriptions(self):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
-                                            callback_url="https://www.test_python_subscriptions.dss.hca.org",
+                                            callback_url="https://www.test_python_subscriptions.dss.dbio.org",
                                             replica="aws")
         subscription_uuid = resp['uuid']
 
@@ -283,7 +283,7 @@ class TestDssApi(unittest.TestCase):
             resp = self.client.get_subscription(replica="aws", uuid=subscription_uuid, subscription_type='elasticsearch')
 
         # Test subscriptions version 2 (jmespath subscriptions)
-        resp = self.client.put_subscription(callback_url="https://www.test_python_subscriptions.dss.hca.org",
+        resp = self.client.put_subscription(callback_url="https://www.test_python_subscriptions.dss.dbio.org",
                                             replica="aws")
         subscription_uuid = resp['uuid']
 
@@ -363,7 +363,7 @@ class TestDssApi(unittest.TestCase):
     def test_clear_cache(self):
         """Testing clear_cache by comparing the creation date of the old swagger with the refreshed swagger that
         replaces it"""
-        client = hca.dss.DSSClient()
+        client = dbio.dss.DSSClient()
         swagger_filename = client._get_swagger_filename(client.swagger_url)
         self.assertTrue(os.path.isfile(swagger_filename), "Pass if file exists initially")
         old_swagger = datetime.datetime.fromtimestamp(os.path.getmtime(swagger_filename))
@@ -377,7 +377,7 @@ class TestDssApi(unittest.TestCase):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
                                             callback_url=
-                                            "https://www.test_python_login_logout_service_account.dss.hca.org",
+                                            "https://www.test_python_login_logout_service_account.dss.dbio.org",
                                             replica="aws")
         self.assertIn("uuid", resp)
 
@@ -387,7 +387,7 @@ class TestDssApi(unittest.TestCase):
         access_token = "test_access_token"
 
         self.client.login(access_token=access_token)
-        config = hca.get_config()
+        config = dbio.get_config()
 
         self.assertEqual(config.oauth2_token.access_token, access_token)
         self.client.logout()
@@ -396,7 +396,7 @@ class TestDssApi(unittest.TestCase):
     @unittest.skipIf(True, "Manual Test")
     @reset_tweak_changes
     def test_python_login_logout_user_account(self):
-        config = hca.get_config()
+        config = dbio.get_config()
 
         self.client.logout()
         self.assertNotIn("oauth2_token", config)
@@ -409,7 +409,7 @@ class TestDssApi(unittest.TestCase):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
                                             callback_url=
-                                            "https://www.test_python_login_logout_service_account.dss.hca.org",
+                                            "https://www.test_python_login_logout_service_account.dss.dbio.org",
                                             replica="aws")
         self.assertIn("uuid", resp)
         self.client.delete_subscription(uuid=resp["uuid"], replica="aws", subscription_type='elasticsearch')

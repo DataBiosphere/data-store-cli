@@ -13,7 +13,7 @@ from mock import Mock, patch
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-from hca.upload.cli.upload_command import UploadCommand
+from dbio.upload.cli.upload_command import UploadCommand
 from test import TEST_DIR
 from test.integration.upload import UploadTestCase
 
@@ -177,8 +177,8 @@ class TestUploadCliUploadCommand(UploadTestCase):
     def test_no_transfer_acceleration_option_sets_up_botocore_config_correctly(self):
         import botocore
 
-        with patch('hca.upload.lib.s3_agent.S3Agent.upload_local_file'), \
-             patch('hca.upload.lib.s3_agent.Config', new=Mock(wraps=botocore.config.Config)) as mock_config:
+        with patch('dbio.upload.lib.s3_agent.S3Agent.upload_local_file'), \
+             patch('dbio.upload.lib.s3_agent.Config', new=Mock(wraps=botocore.config.Config)) as mock_config:
             args = Namespace(upload_paths=['LICENSE'], target_filename=None, quiet=True, file_extension=None, sync=True)
             args.no_transfer_acceleration = False
 
