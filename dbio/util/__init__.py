@@ -274,7 +274,7 @@ class SwaggerClient(object):
 
     def _audience(self):
         return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
-            "https://auth.ucsc-cgp-redwood.org"
+            "https://auth.ucsc.ucsc-cgp-redwood.org"
 
     @property
     def email_claim(self):
@@ -402,7 +402,7 @@ class SwaggerClient(object):
             else:
                 from google_auth_oauthlib.flow import InstalledAppFlow
                 flow = InstalledAppFlow.from_client_config(self.application_secrets, scopes=scopes)
-                msg = "Authentication successful. Please close this tab and run DaaBiosphere CLI commands in the terminal."
+                msg = "Authentication successful. Please close this tab and run dbio commands in the terminal."
                 credentials = flow.run_local_server(success_message=msg, audience=self._audience())
 
         # TODO: (akislyuk) test token autorefresh on expiration
@@ -453,7 +453,7 @@ class SwaggerClient(object):
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   self.group_claim: 'dbio',
+                   self.group_claim: 'hca', # FIXME
                    self.email_claim: service_credentials['client_email']
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
