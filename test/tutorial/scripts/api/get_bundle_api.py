@@ -1,7 +1,7 @@
 import os
 import json
 import subprocess
-from hca.dss import DSSClient
+from dbio.dss import DSSClient
 
 BUNDLE_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'get_bundle.json')
 

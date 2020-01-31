@@ -15,8 +15,8 @@ class TestDSSDocAPI(unittest.TestCase):
     def teardown(self):
         if os.path.isdir("./download_test"):
             shutil.rmtree("./download_test")
-        if os.path.isdir("./.hca"):
-            shutil.rmtree("./.hca")
+        if os.path.isdir("./.dbio"):
+            shutil.rmtree("./.dbio")
         if os.path.exists("./manifest.tsv"):
             os.remove("./manifest.tsv")
 

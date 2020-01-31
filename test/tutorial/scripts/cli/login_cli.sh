@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-hca dss login --access-token test
+dbio dss login --access-token test

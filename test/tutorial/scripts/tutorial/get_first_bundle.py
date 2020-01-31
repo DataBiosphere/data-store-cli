@@ -1,9 +1,9 @@
-from hca import HCAConfig
-from hca.dss import DSSClient
+from dbio import DataBiosphereConfig
+from dbio.dss import DSSClient
 
-hca_config = HCAConfig()
-hca_config['DSSClient'].swagger_url = f'https://dss.dev.data.humancellatlas.org/v1/swagger.json'
-dss = DSSClient(config=hca_config)
+dbio_config = DataBiosphereConfig()
+dbio_config['DSSClient'].swagger_url = f'https://dss.dev.ucsc-cgp-redwood.org/v1/swagger.json'
+dss = DSSClient(config=dbio_config)
 for i in dss.post_search.iterate(replica='aws', es_query={}):
     uuid, version = i['bundle_fqid'].split('.', 1)
     try:

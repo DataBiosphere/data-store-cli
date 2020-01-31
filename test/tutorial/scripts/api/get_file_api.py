@@ -1,4 +1,4 @@
-from hca.dss import DSSClient
+from dbio.dss import DSSClient
 import json
 
 dss = DSSClient()

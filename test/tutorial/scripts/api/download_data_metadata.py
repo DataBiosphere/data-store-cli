@@ -1,4 +1,4 @@
-from hca.dss import DSSClient
+from dbio.dss import DSSClient
 
 dss = DSSClient()
 
@@ -10,7 +10,7 @@ dss.download(
     bundle_uuid=UUID,
     version=VERSION,
     replica="aws",
-    download_dir=".hca_metadata_only"
+    download_dir=".dbio_metadata_only"
 )
 
 # Download the data only
@@ -18,5 +18,5 @@ dss.download(
     bundle_uuid=UUID,
     version=VERSION,
     replica="aws",
-    download_dir=".hca_data_only"
+    download_dir=".dbio_data_only"
 )
