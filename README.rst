@@ -33,7 +33,6 @@ are enumerated in the following order (i.e., in order of increasing priority):
 
 - Site-wide configuration source, ``/etc/dbio/config.json``
 - User configuration source, ``~/.config/dbio/config.json``
-- Data store specific configuration file, ``~/.config/dss/config.json``
 - Any sources listed in the colon-delimited variable ``DBIO_CONFIG_FILE``
 - Command line options
 
