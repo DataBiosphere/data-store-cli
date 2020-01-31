@@ -16,7 +16,7 @@ from requests.models import Response
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca
+import dbio
 import dbio.cli
 import dbio.dss
 import dbio.util.exceptions
@@ -101,10 +101,10 @@ class TestDssCLI(unittest.TestCase):
     def _put_test_col(args, uuid=str(uuid.uuid4()), replica='aws'):
         """
         Implements a context manager that PUTs a collection to the
-        data store using `hca dss put-collection` then deletes it
+        data store using `dbio dss put-collection` then deletes it
         when done.
 
-        :param list args: arguments to pass to `hca dss put-collection`
+        :param list args: arguments to pass to `dbio dss put-collection`
         :param str uuid: uuid of the collection
         :param str replica: replica to use
         :rtype: dict
@@ -122,12 +122,12 @@ class TestDssCLI(unittest.TestCase):
     def test_upload_progress_bar(self):
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'org-humancellatlas-dss-cli-test']
+                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
 
         with self.subTest("Suppress progress bar if not interactive"):
             with CapturingIO('stdout') as stdout:
                 dbio.cli.main(args=put_args)
-            # If using CapturingIO, `hca dss upload` should know it's not being
+            # If using CapturingIO, `dbio dss upload` should know it's not being
             # invoked interactively and as such not show a progress bar. Which
             # means that stdout should parse nicely as json
             self.assertTrue(json.loads(stdout.captured()))
@@ -138,7 +138,7 @@ class TestDssCLI(unittest.TestCase):
         import pty  # Trying to import this on Windows will cause a ModuleNotFoundError
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'org-humancellatlas-dss-cli-test']
+                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
 
         # In an interactive session, we should see a progress bar if we
         # don't pass `--no-progress`.
@@ -188,10 +188,10 @@ class TestDssCLI(unittest.TestCase):
     @contextlib.contextmanager
     def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'),
                       replica='aws',
-                      staging_bucket='org-humancellatlas-dss-cli-test'):
+                      staging_bucket='ucsc-cgp-dss-cli-test'):
         """
         Implements a context manager that uploads a bundle to the data
-        store using `hca dss upload` then deletes it when done, if the
+        store using `dbio dss upload` then deletes it when done, if the
         user has the requisite permissions.
 
         :param str dirpath: path of the directory to upload (`--src-dir`)

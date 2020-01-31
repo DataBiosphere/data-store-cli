@@ -21,7 +21,7 @@ from dbio.dss import upload_to_cloud
 
 
 class TestDssApiRetry(unittest.TestCase):
-    staging_bucket = "org-humancellatlas-dss-cli-test"
+    staging_bucket = "ucsc-cgp-dss-cli-test"
     source_url = None
 
     @classmethod

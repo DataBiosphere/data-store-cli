@@ -11,7 +11,7 @@ import sys
 import tempfile
 import uuid
 import unittest
-from fnmatch import fnmatchcase
+from fnmatch import fnmatcdbiose
 
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
@@ -22,7 +22,7 @@ from test import reset_tweak_changes, TEST_DIR
 
 
 class TestDssApi(unittest.TestCase):
-    staging_bucket = "org-humancellatlas-dss-cli-test"
+    staging_bucket = "ucsc-cgp-dss-cli-test"
 
     @classmethod
     def setUpClass(cls):
@@ -32,8 +32,8 @@ class TestDssApi(unittest.TestCase):
         with tempfile.TemporaryDirectory() as home:
             with unittest.mock.patch.dict(os.environ, HOME=home):
                 dev = dbio.dss.DSSClient(
-                    swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
-                self.assertEqual("dss.dev.data.humancellatlas.org", dev._swagger_spec['host'])
+                    swagger_url="https://dss.dev.ucsc-cgp-redwood.org/v1/swagger.json")
+                self.assertEqual("dss.dev.ucsc-cgp-redwood.org", dev._swagger_spec['host'])
 
     def test_set_host_multithreaded(self):
         num_repeats = 10
@@ -45,8 +45,8 @@ class TestDssApi(unittest.TestCase):
 
                         def f(_):
                             dev = dbio.dss.DSSClient(
-                                swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
-                            self.assertEqual('dss.dev.data.humancellatlas.org', dev._swagger_spec['host'])
+                                swagger_url="https://dss.dev.ucsc-cgp-redwood.org/v1/swagger.json")
+                            self.assertEqual('dss.dev.ucsc-cgp-redwood.org', dev._swagger_spec['host'])
 
                         with ThreadPoolExecutor(num_threads) as tpe:
                             self.assertTrue(all(x is None for x in tpe.map(f, range(num_threads))))
@@ -56,7 +56,7 @@ class TestDssApi(unittest.TestCase):
         bundle_path = os.path.join(TEST_DIR, "upload", "data")
         uploaded_paths = [x.path for x in iter_paths(str(bundle_path))]
         uploaded_files = [object_name_builder(p, bundle_path) for p in uploaded_paths]
-        client = dbio.dss.DSSClient(swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
+        client = dbio.dss.DSSClient(swagger_url="https://dss.dev.ucsc-cgp-redwood.org/v1/swagger.json")
 
         manifest = client.upload(src_dir=bundle_path,
                                  replica="aws",
@@ -92,7 +92,7 @@ class TestDssApi(unittest.TestCase):
                     bundle_uuid = manifest['bundle_uuid']
                     expect_downloaded_files = {
                         file['name'] for file in manifest_files
-                        if any(fnmatchcase(file['name'], glob)
+                        if any(fnmatcdbiose(file['name'], glob)
                                for glob in (metadata_globs if file['indexed'] else data_globs))}
 
                     if '*' in metadata_globs and '*' in data_globs:
@@ -122,17 +122,17 @@ class TestDssApi(unittest.TestCase):
                             if e.errno != errno.ENOENT:
                                 raise
                             downloaded_files = set()
-                        if '.hca' in downloaded_files:
-                            # Since we set the download_dir for download, .hca dir will appear,
+                        if '.dbio' in downloaded_files:
+                            # Since we set the download_dir for download, .dbio dir will appear,
                             # but only if globs are non-empty
                             assert not all(glob in [(), ('',)] for glob in [metadata_globs, data_globs])
-                            downloaded_files.remove('.hca')
+                            downloaded_files.remove('.dbio')
                         downloaded_files.remove('bundle.json')
                         self.assertEqual(expect_downloaded_files, downloaded_files)
                         for file in downloaded_files:
                             manifest_entry = next(entry for entry in manifest['files'] if entry['name'] == file)
                             globs = metadata_globs if manifest_entry['indexed'] else data_globs
-                            self.assertTrue(any(fnmatchcase(file, glob) for glob in globs))
+                            self.assertTrue(any(fnmatcdbiose(file, glob) for glob in globs))
                             uploaded_file = os.path.join(bundle_path, file)
                             downloaded_file = os.path.join(dest_dir, bundle_fqid, file)
                             self.assertTrue(filecmp.cmp(uploaded_file, downloaded_file, False))
@@ -261,7 +261,7 @@ class TestDssApi(unittest.TestCase):
     def test_python_subscriptions(self):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
-                                            callback_url="https://www.test_python_subscriptions.dss.dbio.org",
+                                            callback_url="https://www.test_python_subscriptions.dss.databiosphere.org",
                                             replica="aws")
         subscription_uuid = resp['uuid']
 
@@ -283,7 +283,7 @@ class TestDssApi(unittest.TestCase):
             resp = self.client.get_subscription(replica="aws", uuid=subscription_uuid, subscription_type='elasticsearch')
 
         # Test subscriptions version 2 (jmespath subscriptions)
-        resp = self.client.put_subscription(callback_url="https://www.test_python_subscriptions.dss.dbio.org",
+        resp = self.client.put_subscription(callback_url="https://www.test_python_subscriptions.dss.databiosphere.org",
                                             replica="aws")
         subscription_uuid = resp['uuid']
 
@@ -377,7 +377,7 @@ class TestDssApi(unittest.TestCase):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
                                             callback_url=
-                                            "https://www.test_python_login_logout_service_account.dss.dbio.org",
+                                            "https://www.test_python_login_logout_service_account.dss.databiosphere.org",
                                             replica="aws")
         self.assertIn("uuid", resp)
 
@@ -409,7 +409,7 @@ class TestDssApi(unittest.TestCase):
         query = {'bool': {}}
         resp = self.client.put_subscription(es_query=query,
                                             callback_url=
-                                            "https://www.test_python_login_logout_service_account.dss.dbio.org",
+                                            "https://www.test_python_login_logout_service_account.dss.databiosphere.org",
                                             replica="aws")
         self.assertIn("uuid", resp)
         self.client.delete_subscription(uuid=resp["uuid"], replica="aws", subscription_type='elasticsearch')
