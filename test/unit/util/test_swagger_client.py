@@ -10,15 +10,15 @@ import requests
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca.util
-from hca import HCAConfig
+import dbio.util
+from dbio import DataBiosphereConfig
 from test import TEST_DIR
 from unittest import mock
 from unittest.mock import mock_open
 
 
 import time
-from hca.dss import DSSClient
+from dbio.dss import DSSClient
 
 
 class TestTokenDSSClient(DSSClient):
@@ -33,7 +33,7 @@ class TestSwaggerClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """
-        Initialize SwaggerClient with a test HCAConfig.
+        Initialize SwaggerClient with a test DataBiosphereConfig.
         """
         cls.swagger_url = "test_swagger_url"
         cls.open_fn_name = "builtins.open"
@@ -44,15 +44,15 @@ class TestSwaggerClient(unittest.TestCase):
 
         with mock.patch('requests.Session.get') as mock_get, \
                 mock.patch(cls.open_fn_name, mock_open()), \
-                mock.patch('hca.util.fs.atomic_write'), \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json') as mock_load_swagger_json:
+                mock.patch('dbio.util.fs.atomic_write'), \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json') as mock_load_swagger_json:
             mock_get.return_value = cls.test_response
             mock_load_swagger_json.return_value = json.loads(cls.test_response._content.decode("utf-8"))
 
-            config = HCAConfig(save_on_exit=False)
+            config = DataBiosphereConfig(save_on_exit=False)
             config['SwaggerClient'] = {}
             config['SwaggerClient'].swagger_url = cls.swagger_url
-            cls.client = hca.util.SwaggerClient(config)
+            cls.client = dbio.util.SwaggerClient(config)
 
     def setUp(self):
         self.client._swagger_spec = None
@@ -64,11 +64,11 @@ class TestSwaggerClient(unittest.TestCase):
 
     def test_get_swagger_spec_new(self):
         with mock.patch('os.path.exists') as mock_exists, \
-                mock.patch('hca.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
+                mock.patch('dbio.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
                 mock.patch('os.makedirs') as mock_makedirs, \
                 mock.patch('requests.Session.get') as mock_get, \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json'), \
-                mock.patch('hca.util.fs.atomic_write') as mock_atomic_write, \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json'), \
+                mock.patch('dbio.util.fs.atomic_write') as mock_atomic_write, \
                 mock.patch(self.open_fn_name, mock_open()):
             mock_exists.return_value = False
             mock_days_since_last_modified.return_value = 0
@@ -83,11 +83,11 @@ class TestSwaggerClient(unittest.TestCase):
 
     def test_get_swagger_spec_cache_valid(self):
         with mock.patch('os.path.exists') as mock_exists, \
-                mock.patch('hca.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
+                mock.patch('dbio.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
                 mock.patch('os.makedirs') as mock_makedirs, \
                 mock.patch('requests.Session.get') as mock_get, \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json'), \
-                mock.patch('hca.util.fs.atomic_write') as mock_atomic_write, \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json'), \
+                mock.patch('dbio.util.fs.atomic_write') as mock_atomic_write, \
                 mock.patch(self.open_fn_name, mock_open()):
             mock_exists.return_value = True
             mock_days_since_last_modified.return_value = 0
@@ -100,11 +100,11 @@ class TestSwaggerClient(unittest.TestCase):
 
     def test_get_swagger_spec_cache_expired(self):
         with mock.patch('os.path.exists') as mock_exists, \
-                mock.patch('hca.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
+                mock.patch('dbio.util.fs.get_days_since_last_modified') as mock_days_since_last_modified, \
                 mock.patch('os.makedirs'), \
                 mock.patch('requests.Session.get') as mock_get, \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json'), \
-                mock.patch('hca.util.fs.atomic_write') as mock_atomic_write, \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json'), \
+                mock.patch('dbio.util.fs.atomic_write') as mock_atomic_write, \
                 mock.patch(self.open_fn_name, mock_open()):
             mock_exists.return_value = True
             mock_days_since_last_modified.return_value = 2
@@ -118,8 +118,8 @@ class TestSwaggerClient(unittest.TestCase):
     def test_get_swagger_spec_local_config(self):
         with mock.patch('os.makedirs') as mock_makedirs, \
                 mock.patch('requests.Session.get') as mock_get, \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json'), \
-                mock.patch('hca.util.fs.atomic_write') as mock_atomic_write, \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json'), \
+                mock.patch('dbio.util.fs.atomic_write') as mock_atomic_write, \
                 mock.patch(self.open_fn_name, mock_open()):
             self.client.config.swagger_filename = "filename"
 
