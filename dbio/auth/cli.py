@@ -6,7 +6,7 @@ from . import AuthClient
 
 
 def add_commands(subparsers, help_menu=False):
-    auth_parser = subparsers.add_parser('auth', help="Interact with the HCA authorization and authentication system.")
+    auth_parser = subparsers.add_parser('auth', help="Interact with the authorization and authentication system.")
 
     def help(args):
         auth_parser.print_help()

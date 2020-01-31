@@ -103,10 +103,10 @@ def upload_to_cloud(file_handles, staging_bucket, replica, from_cloud=False, log
                 )
                 sums = fh.get_checksums()
                 metadata = {
-                    "hca-dss-s3_etag": sums["s3_etag"],
-                    "hca-dss-sha1": sums["sha1"],
-                    "hca-dss-sha256": sums["sha256"],
-                    "hca-dss-crc32c": sums["crc32c"],
+                    "dbio-dss-s3_etag": sums["s3_etag"],
+                    "dbio-dss-sha1": sums["sha1"],
+                    "dbio-dss-sha256": sums["sha256"],
+                    "dbio-dss-crc32c": sums["crc32c"],
                 }
                 s3.meta.client.put_object_tagging(Bucket=destination_bucket.name,
                                                   Key=key_name,

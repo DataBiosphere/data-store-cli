@@ -5,11 +5,11 @@ import os
 from tweak import Config as _Config
 
 
-class HCAConfig(_Config):
+class DataBiosphereConfig(_Config):
     default_config_file = os.path.join(os.path.dirname(__file__), "default_config.json")
 
     def __init__(self, *args, **kwargs):
-        super(HCAConfig, self).__init__(name="dss", *args, **kwargs)
+        super(DataBiosphereConfig, self).__init__(name="dss", *args, **kwargs)
 
     @property
     def config_files(self):
@@ -26,7 +26,7 @@ _config = None
 def get_config():
     global _config
     if _config is None:
-        _config = HCAConfig()
+        _config = DataBiosphereConfig()
     return _config
 
 
@@ -40,4 +40,4 @@ class ProgressBarStreamHandler(object):
         tqdm.tqdm.write(msg, end='')
 
 
-logger = logging.getLogger("hca")
+logger = logging.getLogger("dbio")
