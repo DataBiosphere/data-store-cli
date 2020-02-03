@@ -4,7 +4,7 @@ import sys
 import pickle
 from functools import wraps
 
-import hca, hca.config
+import dbio, dbio.config
 
 if 'DEPLOYMENT_STAGE' not in os.environ:
     os.environ['DEPLOYMENT_STAGE'] = 'test'
@@ -42,16 +42,16 @@ class TweakResetter:
         self.restore_config()
 
     def save_config(self):
-        config = hca.get_config()
+        config = dbio.get_config()
         self.backup = pickle.dumps(config)
 
     def restore_config(self):
         # The save method of the previous config manager will be called as an atexit handler.
         # Invalidate its config file path so it fails to save the old config.
-        hca.config._config._user_config_home = "/tmp"
+        dbio.config._config._user_config_home = "/tmp"
         # Reload config after changes made.
-        hca.config._config = pickle.loads(self.backup)
-        hca.get_config().save()
+        dbio.config._config = pickle.loads(self.backup)
+        dbio.get_config().save()
 
 
 def reset_tweak_changes(f):

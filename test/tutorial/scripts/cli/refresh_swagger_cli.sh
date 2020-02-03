@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-hca dss refresh-swagger
+dbio dss refresh-swagger

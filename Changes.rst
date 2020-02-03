@@ -1,3 +1,9 @@
+Changes for v8.0.0 (2020-01-31)
+===============================
+
+DataBiosphere/data-store forked from HumanCellAtlas/data-store. Command line tool
+renamed from ``hca`` to ``dbio``.
+
 Changes for v7.0.0 (2020-01-23)
 ===============================
 

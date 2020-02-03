@@ -1,2 +1,0 @@
-class UploadCLICommand(object):
-    pass

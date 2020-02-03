@@ -5,7 +5,7 @@ API bindings library and by its CLI. There is no need to use these
 utilities directly unless you are extending DCP client functionality.
 
 ``SwaggerClient`` is a base class for a general purpose Swagger API
-client connection manager. User classes such as ``hca.dss.DSSClient``
+client connection manager. User classes such as ``dbio.dss.DSSClient``
 extend it as follows:
 
   class APIClient(SwaggerClient):
@@ -18,13 +18,13 @@ extend it as follows:
 
 Each user class should have a configuration subtree keyed by its name
 (such as ``APIClient`` above) under the DCP-wide config manager
-(available via ``hca.get_config()``; the static defaults for the
-config manager are stored in ``hca/default_config.json``). Within that
+(available via ``dbio.get_config()``; the static defaults for the
+config manager are stored in ``dbio/default_config.json``). Within that
 subtree, the key ``swagger_url`` should point to the HTTPS URL
 containing the Swagger API definition that the client is providing an
 interface for. On first use, this API definition will be downloaded
 and saved into the user config directory (for example,
-/Users/Alice/.config/hca) with a name determined by the base64
+/Users/Alice/.config/dbio) with a name determined by the base64
 encoding of ``swagger_url``. On subsequent uses, this file will be
 loaded instead to get the Swagger API definition.
 
@@ -274,7 +274,7 @@ class SwaggerClient(object):
 
     def _audience(self):
         return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
-            "https://auth.ucsc-cgp-redwood.org"
+            "https://auth.ucsc.ucsc-cgp-redwood.org"
 
     @property
     def email_claim(self):
@@ -402,7 +402,7 @@ class SwaggerClient(object):
             else:
                 from google_auth_oauthlib.flow import InstalledAppFlow
                 flow = InstalledAppFlow.from_client_config(self.application_secrets, scopes=scopes)
-                msg = "Authentication successful. Please close this tab and run HCA CLI commands in the terminal."
+                msg = "Authentication successful. Please close this tab and run dbio commands in the terminal."
                 credentials = flow.run_local_server(success_message=msg, audience=self._audience())
 
         # TODO: (akislyuk) test token autorefresh on expiration
@@ -453,7 +453,7 @@ class SwaggerClient(object):
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   self.group_claim: 'hca',
+                   self.group_claim: 'hca', # FIXME
                    self.email_claim: service_credentials['client_email']
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}

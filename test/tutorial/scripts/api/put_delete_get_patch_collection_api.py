@@ -1,11 +1,11 @@
-from hca import HCAConfig
-from hca.dss import DSSClient
+from dbio import DataBiosphereConfig
+from dbio.dss import DSSClient
 import uuid
 import os
 
-hca_config = HCAConfig()
-hca_config["DSSClient"].swagger_url = f"https://dss.dev.data.humancellatlas.org/v1/swagger.json"
-dss = DSSClient(config=hca_config)
+dbio_config = DataBiosphereConfig()
+dbio_config["DSSClient"].swagger_url = f"https://dss.dev.data.humancellatlas.org/v1/swagger.json"
+dss = DSSClient(config=dbio_config)
 
 # Creates a new collection
 collection = dss.put_collection(

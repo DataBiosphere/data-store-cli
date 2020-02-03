@@ -10,7 +10,7 @@ test: lint install integrationtests unittests
 
 
 unittests:
-	coverage run -p --source=hca -m unittest discover -v -t . -s test/unit
+	coverage run -p --source=dbio -m unittest discover -v -t . -s test/unit
 
 unit: lint install unittests
 	coverage combine
@@ -18,8 +18,8 @@ unit: lint install unittests
 
 integrationtests:
     # https://github.com/HumanCellAtlas/dcp-cli/issues/127
-	coverage run -p --source=hca -m unittest discover -v -t . -s test/integration/upload
-	coverage run -p --source=hca -m unittest discover -v -t . -s test/integration/dss
+	coverage run -p --source=dbio -m unittest discover -v -t . -s test/integration/upload
+	coverage run -p --source=dbio -m unittest discover -v -t . -s test/integration/dss
 
 integration: lint install integrationtests
 	coverage combine
@@ -28,9 +28,9 @@ integration: lint install integrationtests
 lint:
 	python ./setup.py flake8
 
-version: hca/version.py
+version: dbio/version.py
 
-hca/version.py: setup.py
+dbio/version.py: setup.py
 	echo "__version__ = '$$(python setup.py --version)'" > $@
 
 build: version

@@ -12,8 +12,8 @@ from unittest.mock import mock_open
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca.util
-from hca import HCAConfig
+import dbio.util
+from dbio import DataBiosphereConfig
 from test import TEST_DIR
 
 
@@ -57,7 +57,7 @@ class TestSwaggerClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """
-        Initialize SwaggerClient using a test HCAConfig.
+        Initialize SwaggerClient using a test DataBiosphereConfig.
         """
         swagger_response = requests.models.Response()
         swagger_response.status_code = 200
@@ -73,16 +73,16 @@ class TestSwaggerClient(unittest.TestCase):
 
         with mock.patch('requests.Session.get') as mock_get, \
                 mock.patch("builtins.open", mock_open()), \
-                mock.patch('hca.util.fs.atomic_write'), \
-                mock.patch('hca.dss.SwaggerClient.load_swagger_json') as mock_load_swagger_json:
+                mock.patch('dbio.util.fs.atomic_write'), \
+                mock.patch('dbio.dss.SwaggerClient.load_swagger_json') as mock_load_swagger_json:
             # init SwaggerClient with test swagger JSON file
             mock_get.return_value = swagger_response
             mock_load_swagger_json.return_value = json.loads(swagger_response._content.decode("utf-8"))
 
-            config = HCAConfig(save_on_exit=False)
+            config = DataBiosphereConfig(save_on_exit=False)
             config['SwaggerClient'] = {}
             config['SwaggerClient'].swagger_url = cls.swagger_url
-            cls.client = hca.util.SwaggerClient(config)
+            cls.client = dbio.util.SwaggerClient(config)
             cls.client.build_argparse_subparsers(cls.subparsers)
 
     @classmethod
@@ -106,7 +106,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path + "/" + path_param
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test API client method
             mock_request.return_value = self.dummy_response
 
@@ -121,7 +121,7 @@ class TestSwaggerClient(unittest.TestCase):
                                             timeout=mock.ANY)
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test argparse command
             mock_request.return_value = self.dummy_response
 
@@ -150,7 +150,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path + "/" + path_param
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test API client method
             mock_request.return_value = self.dummy_response
 
@@ -168,7 +168,7 @@ class TestSwaggerClient(unittest.TestCase):
                                             timeout=mock.ANY)
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test argparse command
             mock_request.return_value = self.dummy_response
 
@@ -197,7 +197,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             mock_request.return_value = self.dummy_response
 
             self.client.post_with_list_in_body_param(prop1=body_param['prop1'],
@@ -212,7 +212,7 @@ class TestSwaggerClient(unittest.TestCase):
                                             timeout=mock.ANY)
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             mock_request.return_value = self.dummy_response
 
             args = self.parser.parse_args(["post-with-list-in-body-param",
@@ -241,7 +241,7 @@ class TestSwaggerClient(unittest.TestCase):
 
         with self.subTest('API'):
             with mock.patch('requests.Session.request') as mock_request, \
-                    mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                    mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
                 mock_request.return_value = self.dummy_response
 
                 resp = getattr(self.client, func_name.replace('/', '_'))(**body_param)
@@ -256,7 +256,7 @@ class TestSwaggerClient(unittest.TestCase):
 
         with self.subTest('CLI'):
             with mock.patch('requests.Session.request') as mock_request, \
-                    mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                    mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
                 mock_request.return_value = self.dummy_response
 
                 args = self.parser.parse_args([func_name.replace('/', '-'),
@@ -280,7 +280,7 @@ class TestSwaggerClient(unittest.TestCase):
 
         with self.subTest('API'):
             with mock.patch('requests.Session.request') as mock_request, \
-                    mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                    mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
                 mock_request.return_value = self.dummy_response
 
                 getattr(self.client, func_name.replace('/', '_'))(prop1='a')
@@ -313,7 +313,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path + "/" + path_param
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test success
             mock_request.return_value = self.dummy_response
 
@@ -342,7 +342,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test with optional param
             mock_request.return_value = self.dummy_response
 
@@ -359,7 +359,7 @@ class TestSwaggerClient(unittest.TestCase):
                                             timeout=mock.ANY)
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test without optional param
             mock_request.return_value = self.dummy_response
 
@@ -383,7 +383,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             # test with valid enum
             mock_request.return_value = self.dummy_response
 
@@ -438,7 +438,7 @@ class TestSwaggerClient(unittest.TestCase):
         url = self.url_base + path
 
         with mock.patch('requests.Session.request') as mock_request, \
-                mock.patch('hca.util._ClientMethodFactory._consume_response') as mock_consume_response:
+                mock.patch('dbio.util._ClientMethodFactory._consume_response') as mock_consume_response:
             mock_request.return_value = self.dummy_response
 
             args = self.parser.parse_args([command] + command_args)
