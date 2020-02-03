@@ -1,6 +1,6 @@
-from hca.dss import DSSClient
+from dbio.dss import DSSClient
 import os
-from hca.util import tsv
+from dbio.util import tsv
 import json
 import pprint
 from get_bundle_api import fetch_bundle, save_bundle, BUNDLE_JSON

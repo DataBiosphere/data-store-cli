@@ -16,10 +16,10 @@ from requests.models import Response
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca
-import hca.cli
-import hca.dss
-import hca.util.exceptions
+import dbio
+import dbio.cli
+import dbio.dss
+import dbio.util.exceptions
 from test import CapturingIO, reset_tweak_changes, TEST_DIR
 
 
@@ -30,7 +30,7 @@ class TestDssCLI(unittest.TestCase):
         args = ["dss", "post-search", "--es-query", query, "--replica", replica,
                 "--output-format", "raw", "--no-paginate"]
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args)
+            dbio.cli.main(args)
         result = json.loads(stdout.captured())
         self.assertIn("results", result)
 
@@ -43,7 +43,7 @@ class TestDssCLI(unittest.TestCase):
             download_args = ['dss', 'download', '--bundle-uuid', upload_res['bundle_uuid'],
                              '--replica', 'aws', '--download-dir', dest_dir]
             with CapturingIO('stdout'):
-                hca.cli.main(args=download_args)
+                dbio.cli.main(args=download_args)
             bundle_fqid = upload_res['bundle_uuid'] + '.' + upload_res['version']
             with open(os.path.join(dest_dir, bundle_fqid, filename), 'rb') as download_data:
                 download_content = download_data.read()
@@ -60,11 +60,11 @@ class TestDssCLI(unittest.TestCase):
             3. Confirm Results
         """
         args = ["dss", "login", "--remote"]
-        hca.cli.main(args)
-        self.assertTrue(hca.get_config().oauth2_token.access_token)
+        dbio.cli.main(args)
+        self.assertTrue(dbio.get_config().oauth2_token.access_token)
         args = ['dss', 'get-subscriptions', '--replica', 'aws']
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args)
+            dbio.cli.main(args)
         results = json.loads(stdout.captured())
         self.assertIn("subscriptions", results)
 
@@ -76,23 +76,23 @@ class TestDssCLI(unittest.TestCase):
         args = ["dss", "login", "--access-token", access_token]
 
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args)
+            dbio.cli.main(args)
 
         self.assertEqual(stdout.captured(), expected)
-        self.assertEqual(hca.get_config().oauth2_token.access_token, access_token)
+        self.assertEqual(dbio.get_config().oauth2_token.access_token, access_token)
 
     def test_json_input(self):
         """Ensure that adding JSON input works"""
         args = ["dss", "post-search", "--es-query", '{}', "--replica", "aws"]
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args)
+            dbio.cli.main(args)
 
         self.assertEqual(json.loads(stdout.captured())["es_query"], {})
 
     def test_version_output(self):
         args = ["dss", "create-version"]
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args=args)
+            dbio.cli.main(args=args)
         print(stdout.captured())
         self.assertTrue(stdout.captured())
 
@@ -101,10 +101,10 @@ class TestDssCLI(unittest.TestCase):
     def _put_test_col(args, uuid=str(uuid.uuid4()), replica='aws'):
         """
         Implements a context manager that PUTs a collection to the
-        data store using `hca dss put-collection` then deletes it
+        data store using `dbio dss put-collection` then deletes it
         when done.
 
-        :param list args: arguments to pass to `hca dss put-collection`
+        :param list args: arguments to pass to `dbio dss put-collection`
         :param str uuid: uuid of the collection
         :param str replica: replica to use
         :rtype: dict
@@ -113,21 +113,21 @@ class TestDssCLI(unittest.TestCase):
         base_args = ['dss', 'put-collection', '--replica', replica,
                      '--uuid', uuid]
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args=base_args + args)
+            dbio.cli.main(args=base_args + args)
         yield json.loads(stdout.captured())
         base_args[1] = 'delete-collection'
         with CapturingIO('stdout'):
-            hca.cli.main(args=base_args)
+            dbio.cli.main(args=base_args)
 
     def test_upload_progress_bar(self):
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'org-humancellatlas-dss-cli-test']
+                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
 
         with self.subTest("Suppress progress bar if not interactive"):
             with CapturingIO('stdout') as stdout:
-                hca.cli.main(args=put_args)
-            # If using CapturingIO, `hca dss upload` should know it's not being
+                dbio.cli.main(args=put_args)
+            # If using CapturingIO, `dbio dss upload` should know it's not being
             # invoked interactively and as such not show a progress bar. Which
             # means that stdout should parse nicely as json
             self.assertTrue(json.loads(stdout.captured()))
@@ -138,14 +138,14 @@ class TestDssCLI(unittest.TestCase):
         import pty  # Trying to import this on Windows will cause a ModuleNotFoundError
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'org-humancellatlas-dss-cli-test']
+                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
 
         # In an interactive session, we should see a progress bar if we
         # don't pass `--no-progress`.
         with self.subTest("Show progress bar if interactive"):
             child_pid, fd = pty.fork()
             if child_pid == 0:
-                hca.cli.main(args=put_args)
+                dbio.cli.main(args=put_args)
                 os._exit(0)
             output = self._get_child_output(child_pid, fd)
             self.assertIn('Uploading to aws: 100%', output)
@@ -153,7 +153,7 @@ class TestDssCLI(unittest.TestCase):
         with self.subTest("Don't show progress bar if interactive and not logging INFO"):
             child_pid, fd = pty.fork()
             if child_pid == 0:
-                hca.cli.main(args=['--log-level', 'WARNING'] + put_args)
+                dbio.cli.main(args=['--log-level', 'WARNING'] + put_args)
                 os._exit(0)
             output = self._get_child_output(child_pid, fd)
             self.assertNotIn('Uploading to aws', output)
@@ -161,7 +161,7 @@ class TestDssCLI(unittest.TestCase):
         with self.subTest("Don't show progress bar if interactive and --no-progress"):
             child_pid, fd = pty.fork()
             if child_pid == 0:
-                hca.cli.main(args=put_args + ['--no-progress'])
+                dbio.cli.main(args=put_args + ['--no-progress'])
                 os._exit(0)
             output = self._get_child_output(child_pid, fd)
             self.assertNotIn('Uploading to aws', output)
@@ -188,10 +188,10 @@ class TestDssCLI(unittest.TestCase):
     @contextlib.contextmanager
     def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'),
                       replica='aws',
-                      staging_bucket='org-humancellatlas-dss-cli-test'):
+                      staging_bucket='ucsc-cgp-dss-cli-test'):
         """
         Implements a context manager that uploads a bundle to the data
-        store using `hca dss upload` then deletes it when done, if the
+        store using `dbio dss upload` then deletes it when done, if the
         user has the requisite permissions.
 
         :param str dirpath: path of the directory to upload (`--src-dir`)
@@ -203,15 +203,15 @@ class TestDssCLI(unittest.TestCase):
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
                     replica, '--staging-bucket', staging_bucket, '--no-progress']
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args=put_args)
+            dbio.cli.main(args=put_args)
         rv = json.loads(stdout.captured())
         yield rv
         del_args = ['dss', 'delete-bundle', '--uuid', rv['bundle_uuid'],
                     '--replica', replica, '--reason', 'tear down test bundle']
         try:
             with CapturingIO('stdout'):
-                hca.cli.main(args=del_args)
-        except hca.util.exceptions.SwaggerAPIException as e:
+                dbio.cli.main(args=del_args)
+        except dbio.util.exceptions.SwaggerAPIException as e:
             # Deleting bundles is a privilege, not a right
             assert e.code == 403
 
@@ -242,11 +242,11 @@ class TestDssCLI(unittest.TestCase):
                     tempfile.TemporaryDirectory() as t2:
                 dl_col_args = ['dss', 'download-collection', '--uuid', col['uuid'],
                                '--replica', 'aws', '--download-dir', t1]
-                hca.cli.main(args=dl_col_args)
+                dbio.cli.main(args=dl_col_args)
                 dl_bdl_args = ['dss', 'download', '--bundle-uuid',
                                bdl['bundle_uuid'], '--replica', 'aws',
                                '--download-dir', t2]
-                hca.cli.main(args=dl_bdl_args)
+                dbio.cli.main(args=dl_bdl_args)
                 # Bundle download and collection download share the same backend,
                 # so shallow check is sufficient.
                 diff = filecmp.dircmp(t1, t2)
@@ -284,16 +284,16 @@ class MockTestCase(unittest.TestCase):
         if no_pagination is True:
             paged_args.append('--no-paginate')
         with CapturingIO('stdout') as stdout:
-            hca.cli.main(args=paged_args)
+            dbio.cli.main(args=paged_args)
         output = json.loads(stdout.captured())
         self.assertEqual(expected_length,len(output['results']))
 
-    @unittest.mock.patch("hca.util._ClientMethodFactory._request")
+    @unittest.mock.patch("dbio.util._ClientMethodFactory._request")
     def test_no_page(self, request_mock):
         request_mock.side_effect = SessionMock().request
         self._test_with_mock(2, no_pagination=True)
 
-    @unittest.mock.patch("hca.util._ClientMethodFactory._request")
+    @unittest.mock.patch("dbio.util._ClientMethodFactory._request")
     def test_page(self, request_mock):
         request_mock.side_effect = SessionMock().request
         self._test_with_mock(3, no_pagination=False)

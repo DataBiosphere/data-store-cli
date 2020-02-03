@@ -15,13 +15,13 @@ from unittest import mock
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
-import hca.dss
-from hca.util import RetryPolicy
-from hca.dss import upload_to_cloud
+import dbio.dss
+from dbio.util import RetryPolicy
+from dbio.dss import upload_to_cloud
 
 
 class TestDssApiRetry(unittest.TestCase):
-    staging_bucket = "org-humancellatlas-dss-cli-test"
+    staging_bucket = "ucsc-cgp-dss-cli-test"
     source_url = None
 
     @classmethod
@@ -49,7 +49,7 @@ class TestDssApiRetry(unittest.TestCase):
         Test that GET methods are retried.  We instruct the server to fake a 504 with some probability, and we should
         retry until successful.
         """
-        client = hca.dss.DSSClient()
+        client = dbio.dss.DSSClient()
         file_uuid = str(uuid.uuid4())
         creator_uid = client.config.get("creator_uid", 0)
         version = datetime.utcnow().strftime("%Y-%m-%dT%H%M%S.%fZ")
@@ -77,7 +77,7 @@ class TestDssApiRetry(unittest.TestCase):
         # This doesn't cover the read timeout because that is harder to mock without adversely affecting the
         # environment we're running in, but if we observe that the `requests` library correctly applies the
         # connection timeout we can safely assume that would also apply the read timeout.
-        client = hca.dss.DSSClient()
+        client = dbio.dss.DSSClient()
         client.timeout_policy = Timeout(connect=.123, read=.234)
         # Prevent unnecessary retries on socket.connect() that don't contribute to code coverage
         client.retry_policy = RetryPolicy(connect=0)

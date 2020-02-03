@@ -1,6 +1,6 @@
 {
     "version": "1",
-    "dir": "s3://hca-dss-test-src/data-bundle-example/",
+    "dir": "s3://ucsc-cgp-dss-test-src/data-bundle-example/",
     "files": [
         {
             "format": ".fastq.gz", 

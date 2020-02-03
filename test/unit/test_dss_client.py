@@ -10,8 +10,8 @@ import unittest
 import uuid
 
 from mock import patch
-from hca.util.compat import walk
-from hca.dss import DSSClient, ManifestDownloadContext, TaskRunner
+from dbio.util.compat import walk
+from dbio.dss import DSSClient, ManifestDownloadContext, TaskRunner
 from test.unit import TmpDirTestCase
 
 logging.basicConfig()
@@ -108,7 +108,7 @@ class DSSClientTestCase(TmpDirTestCase):
         ('file_version', 'af_version', 'af_version', 'af_version'),
         ('file_indexed', 'False', 'False', 'False'),
     ))
-    version_dir = os.path.join('.hca', 'v2', 'files_2_4')
+    version_dir = os.path.join('.dbio', 'v2', 'files_2_4')
 
     def setUp(self):
         super().setUp()
@@ -138,15 +138,15 @@ class DSSClientTestCase(TmpDirTestCase):
                 for f in files}
 
     def _mock_download_manifest(self, *args, **kwargs):
-        with patch('hca.dss.DownloadContext._download_file', side_effect=_fake_download_file) as download_func:
-            with patch('hca.dss.DSSClient.get_bundle') as mock_get_bundle:
+        with patch('dbio.dss.DownloadContext._download_file', side_effect=_fake_download_file) as download_func:
+            with patch('dbio.dss.DSSClient.get_bundle') as mock_get_bundle:
                 mock_get_bundle.paginate = _make_fake_paginate()
                 self.dss.download_manifest(*args, **kwargs)
         return download_func
 
     def _mock_download(self, *args, **kwargs):
-        with patch('hca.dss.DownloadContext._download_file', side_effect=_fake_download_file):
-            with patch('hca.dss.DSSClient.get_bundle') as mock_get_bundle:
+        with patch('dbio.dss.DownloadContext._download_file', side_effect=_fake_download_file):
+            with patch('dbio.dss.DSSClient.get_bundle') as mock_get_bundle:
                 mock_get_bundle.paginate = _make_fake_paginate()
                 self.dss.download(*args, **kwargs)
 
@@ -172,7 +172,7 @@ class DSSClientTestCase(TmpDirTestCase):
         with open(output_manifest, 'r') as f:
             output_manifest = [tuple(line.split('\t')) for line in f.read().splitlines()]
         expected_manifest = list(zip(*self.manifest))
-        version_dir = os.path.join(prefix, '.hca', 'v2', 'files_2_4')
+        version_dir = os.path.join(prefix, '.dbio', 'v2', 'files_2_4')
         expected_manifest.append((
             'file_path',
             os.path.join(version_dir, 'ad', '3fc1', 'ad3fc1e4898e0bce096be5151964a81929dbd2a92bd5ed56a39a8e133053831d'),
@@ -189,17 +189,17 @@ class DSSClientTestCase(TmpDirTestCase):
 
 class TestManifestDownloadFilestore(DSSClientTestCase):
 
-    @patch('hca.dss.DownloadContext.DIRECTORY_NAME_LENGTHS', [1, 3, 2])
+    @patch('dbio.dss.DownloadContext.DIRECTORY_NAME_LENGTHS', [1, 3, 2])
     def test_file_path(self):
         self.assertRaises(AssertionError, ManifestDownloadContext._file_path, 'a', '.')
         parts = ManifestDownloadContext._file_path('abcdefghij', '.').split(os.sep)
-        self.assertEqual(parts, ['.', '.hca', 'v2', 'files_1_3_2', 'a', 'bcd', 'ef', 'abcdefghij'])
+        self.assertEqual(parts, ['.', '.dbio', 'v2', 'files_1_3_2', 'a', 'bcd', 'ef', 'abcdefghij'])
 
-    @patch('hca.dss.DownloadContext.DIRECTORY_NAME_LENGTHS', [1, 3, 2])
+    @patch('dbio.dss.DownloadContext.DIRECTORY_NAME_LENGTHS', [1, 3, 2])
     def test_file_path_filestore_root(self):
         self.assertRaises(AssertionError, ManifestDownloadContext._file_path, 'a', 'nested_filestore')
         parts = ManifestDownloadContext._file_path('abcdefghij', 'nested_filestore').split(os.sep)
-        self.assertEqual(parts, ['nested_filestore', '.hca', 'v2', 'files_1_3_2', 'a', 'bcd', 'ef', 'abcdefghij'])
+        self.assertEqual(parts, ['nested_filestore', '.dbio', 'v2', 'files_1_3_2', 'a', 'bcd', 'ef', 'abcdefghij'])
 
     @patch('logging.Logger.warning')
     def test_manifest_download(self, warning_log):
@@ -263,7 +263,7 @@ class TestManifestDownloadFilestore(DSSClientTestCase):
         self._assert_manifest_updated_with_paths('')
 
     @patch('logging.Logger.warning')
-    @patch('hca.dss.DownloadContext._download_file', side_effect=[None, ValueError(), KeyError()])
+    @patch('dbio.dss.DownloadContext._download_file', side_effect=[None, ValueError(), KeyError()])
     def test_manifest_download_failed(self, _, warning_log):
         self.assertRaises(RuntimeError, self.dss.download_manifest, self.manifest_file, 'aws', layout='none')
         self.assertEqual(warning_log.call_count, 2)
@@ -364,7 +364,7 @@ class TestManifestDownloadBundle(DSSClientTestCase):
         _touch_file(os.path.join(manifest_directory, self.manifest[1][3]))
         self.assertRaises(RuntimeError, self._mock_download_manifest, self.manifest_file, 'aws', layout='bundle')
 
-    @patch('hca.dss.DSSClient.get_bundle')
+    @patch('dbio.dss.DSSClient.get_bundle')
     def test_manifest_download_bundle_parallel(self, mock_get_bundle):
         """
         Ensure that if the same file is downloaded by multiple threads at the same time, they all link together in
@@ -376,9 +376,9 @@ class TestManifestDownloadBundle(DSSClientTestCase):
         random.seed('same seed for consistency')
         self._write_uniform_manifest()
         mock_get_bundle.paginate = _make_fake_paginate(fake_hash=True)
-        with patch('hca.dss.DownloadContext._do_download_file', side_effect=_fake_do_download_file_with_barrier):
+        with patch('dbio.dss.DownloadContext._do_download_file', side_effect=_fake_do_download_file_with_barrier):
             # 3 threads for three files with barrier size 3
-            with patch('hca.dss.TaskRunner', return_value=TaskRunner(threads=3)):
+            with patch('dbio.dss.TaskRunner', return_value=TaskRunner(threads=3)):
                 self.dss.download_manifest(self.manifest_file, 'aws', layout='bundle', no_metadata=True)
         filestore_copy = os.path.join('.', self.version_dir, 'fa', 'keha', 'fakehash')
         filestore_stat = os.stat(filestore_copy)
@@ -440,9 +440,9 @@ class TestDownload(DSSClientTestCase):
         with self.assertRaises(ValueError):
             self.dss.download('any_bundle_uuid', 'aws', no_metadata=True, metadata_filter=('a_file',))
 
-    @patch('hca.dss.DSSClient.get_bundle')
+    @patch('dbio.dss.DSSClient.get_bundle')
     @patch('logging.Logger.warning')
-    @patch('hca.dss.DownloadContext._download_file', side_effect=[None, ValueError(), KeyError()])
+    @patch('dbio.dss.DownloadContext._download_file', side_effect=[None, ValueError(), KeyError()])
     def test_manifest_download_failed(self, _, warning_log, mock_get_bundle):
         mock_get_bundle.paginate = _make_fake_paginate()
         self.assertRaises(RuntimeError, self.dss.download, 'any_bundle_uuid', 'aws')
@@ -479,7 +479,7 @@ class TestDownload(DSSClientTestCase):
 
     @staticmethod
     def _fake_get_collection(collections):
-        """Used for mocking :meth:`hca.dss.DSSClient.get_collection`"""
+        """Used for mocking :meth:`dbio.dss.DSSClient.get_collection`"""
         def func(*args, **kwargs):
             for collection in collections:
                 if collection['uuid'] == kwargs['uuid']:
@@ -533,7 +533,7 @@ class TestDownload(DSSClientTestCase):
         test_col['contents'][0]['version'] = test_col['version']
         mock_get_col = self._fake_get_collection([test_col])
         with tempfile.TemporaryDirectory() as t:
-            with patch('hca.dss.DSSClient.get_collection', new=mock_get_col):
+            with patch('dbio.dss.DSSClient.get_collection', new=mock_get_col):
                 self.dss.download_collection(uuid=test_col['uuid'],
                                              replica='aws', download_dir=t)
 
@@ -554,7 +554,7 @@ class TestDownload(DSSClientTestCase):
             # the same thing - that we can parse nested collections from the
             # head and reach the tail.)
             with self.assertRaises(RuntimeError) as e:
-                with patch('hca.dss.DSSClient.get_collection', new=mock_get_col):
+                with patch('dbio.dss.DSSClient.get_collection', new=mock_get_col):
                     self.dss.download_collection(uuid=test_cols[0]['uuid'],
                                                  replica='aws', download_dir=t)
             self.assertIn("download failure", e.exception.args[0])
