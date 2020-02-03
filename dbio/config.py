@@ -9,7 +9,7 @@ class DataBiosphereConfig(_Config):
     default_config_file = os.path.join(os.path.dirname(__file__), "default_config.json")
 
     def __init__(self, *args, **kwargs):
-        super(DataBiosphereConfig, self).__init__(name="dss", *args, **kwargs)
+        super(DataBiosphereConfig, self).__init__(name="dbio", *args, **kwargs)
 
     @property
     def config_files(self):
