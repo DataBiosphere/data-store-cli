@@ -11,6 +11,13 @@ from ...util.compat import scandir
 log = logging.getLogger(__name__)
 
 
+def check_s3_bucket_exists(bucket_name):
+    s3 = boto3.resource('s3')
+    destination_bucket = s3.Bucket(bucket_name)
+    err_msg = f"Error: S3 bucket {bucket_name} does not exist!"
+    self.assertFalse(destination_bucket.creation_date is None), err_msg
+
+
 def separator_to_camel_case(separated, separator):
     components = separated.split(separator)
     return "".join(x.title() for x in components)
