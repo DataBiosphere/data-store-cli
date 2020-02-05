@@ -28,7 +28,7 @@ class TestDssApi(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.client = dbio.dss.DSSClient()
-        check_s3_bucket_exists(self.staging_bucket)
+        self.assertTrue(check_s3_bucket_exists(self.staging_bucket))
 
     def test_set_host(self):
         with tempfile.TemporaryDirectory() as home:

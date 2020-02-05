@@ -29,7 +29,7 @@ class TestDssCLI(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        check_s3_bucket_exists(self.staging_bucket)
+        self.assertTrue(check_s3_bucket_exists(self.staging_bucket))
 
     def test_post_search_cli(self):
         query = json.dumps({})
