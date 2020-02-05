@@ -48,6 +48,7 @@ stages:
     - (Get-Content .\hca\default_config.json).replace('dss.data.humancellatlas.org',"dss.${DSS_TEST_STAGE}.data.humancellatlas.org")| Set-Content  .\hca\default_config.json
   script:
     - make test-win
+  when: manual
 
 test-3.5:
   extends: .linux-test-base
