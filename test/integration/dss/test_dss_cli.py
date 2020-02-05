@@ -24,6 +24,8 @@ from test import CapturingIO, reset_tweak_changes, TEST_DIR
 
 
 class TestDssCLI(unittest.TestCase):
+    staging_bucket = "ucsc-cgp-dss-cli-test"
+
     def test_post_search_cli(self):
         query = json.dumps({})
         replica = "aws"
@@ -122,7 +124,7 @@ class TestDssCLI(unittest.TestCase):
     def test_upload_progress_bar(self):
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
+                    'aws', '--staging-bucket', self.staging_bucket]
 
         with self.subTest("Suppress progress bar if not interactive"):
             with CapturingIO('stdout') as stdout:
@@ -138,7 +140,7 @@ class TestDssCLI(unittest.TestCase):
         import pty  # Trying to import this on Windows will cause a ModuleNotFoundError
         dirpath = os.path.join(TEST_DIR, 'tutorial', 'data')  # arbitrary and small
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    'aws', '--staging-bucket', 'ucsc-cgp-dss-cli-test']
+                    'aws', '--staging-bucket', self.staging_bucket]
 
         # In an interactive session, we should see a progress bar if we
         # don't pass `--no-progress`.
@@ -188,7 +190,7 @@ class TestDssCLI(unittest.TestCase):
     @contextlib.contextmanager
     def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'),
                       replica='aws',
-                      staging_bucket='ucsc-cgp-dss-cli-test'):
+                      staging_bucket=self.staging_bucket):
         """
         Implements a context manager that uploads a bundle to the data
         store using `dbio dss upload` then deletes it when done, if the
