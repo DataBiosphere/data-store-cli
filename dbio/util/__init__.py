@@ -453,7 +453,7 @@ class SwaggerClient(object):
                    'exp': exp,
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
-                   self.group_claim: 'hca', # FIXME
+                   self.group_claim: 'hca',  # FIXME
                    self.email_claim: service_credentials['client_email']
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
