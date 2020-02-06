@@ -18,7 +18,6 @@ unit: lint install unittests
 
 integrationtests:
     # https://github.com/HumanCellAtlas/dcp-cli/issues/127
-	coverage run -p --source=dbio -m unittest discover -v -t . -s test/integration/upload
 	coverage run -p --source=dbio -m unittest discover -v -t . -s test/integration/dss
 
 integration: lint install integrationtests
