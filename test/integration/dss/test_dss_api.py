@@ -92,7 +92,7 @@ class TestDssApi(unittest.TestCase):
                     bundle_uuid = manifest['bundle_uuid']
                     expect_downloaded_files = {
                         file['name'] for file in manifest_files
-                        if any(fnmatcdbiose(file['name'], glob)
+                        if any(fnmatchcase(file['name'], glob)
                                for glob in (metadata_globs if file['indexed'] else data_globs))}
 
                     if '*' in metadata_globs and '*' in data_globs:
@@ -132,7 +132,7 @@ class TestDssApi(unittest.TestCase):
                         for file in downloaded_files:
                             manifest_entry = next(entry for entry in manifest['files'] if entry['name'] == file)
                             globs = metadata_globs if manifest_entry['indexed'] else data_globs
-                            self.assertTrue(any(fnmatcdbiose(file, glob) for glob in globs))
+                            self.assertTrue(any(fnmatchcase(file, glob) for glob in globs))
                             uploaded_file = os.path.join(bundle_path, file)
                             downloaded_file = os.path.join(dest_dir, bundle_fqid, file)
                             self.assertTrue(filecmp.cmp(uploaded_file, downloaded_file, False))
