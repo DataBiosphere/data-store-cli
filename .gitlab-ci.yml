@@ -1,6 +1,6 @@
 variables:
   AWS_DEFAULT_REGION: "us-east-1"
-  DSS_SECRETS_STORE: "dcp/dss"
+  DSS_SECRETS_STORE: "ucsc-cgp/dss"
   DSS_TEST_STAGE: "dev"
   BOTO_CONFIG: "/dev/null"
 
