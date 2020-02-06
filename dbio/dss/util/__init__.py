@@ -2,6 +2,7 @@ import errno
 import logging
 import os
 import shutil
+import boto3
 from builtins import FileExistsError
 
 import atomicwrites
@@ -9,6 +10,16 @@ import atomicwrites
 from ...util.compat import scandir
 
 log = logging.getLogger(__name__)
+
+
+def check_s3_bucket_exists(bucket_name: str) -> bool:
+    """Check if the specified S3 bucket exists"""
+    s3 = boto3.resource('s3')
+    destination_bucket = s3.Bucket(bucket_name)
+    if destination_bucket.creation_date is None:
+        return False
+    else:
+        return True
 
 
 def separator_to_camel_case(separated, separator):

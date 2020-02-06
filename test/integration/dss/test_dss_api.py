@@ -12,12 +12,13 @@ import tempfile
 import uuid
 import unittest
 from fnmatch import fnmatchcase
+import boto3
 
 pkg_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))  # noqa
 sys.path.insert(0, pkg_root)  # noqa
 
 import dbio.dss
-from dbio.dss.util import iter_paths, object_name_builder
+from dbio.dss.util import iter_paths, object_name_builder, check_s3_bucket_exists
 from test import reset_tweak_changes, TEST_DIR
 
 
@@ -27,6 +28,7 @@ class TestDssApi(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.client = dbio.dss.DSSClient()
+        self.assertTrue(check_s3_bucket_exists(self.staging_bucket))
 
     def test_set_host(self):
         with tempfile.TemporaryDirectory() as home:
