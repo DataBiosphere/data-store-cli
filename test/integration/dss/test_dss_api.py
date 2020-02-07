@@ -20,11 +20,10 @@ sys.path.insert(0, pkg_root)  # noqa
 import dbio.dss
 from dbio.dss.util import iter_paths, object_name_builder, check_s3_bucket_exists
 from test import reset_tweak_changes, TEST_DIR
-
 from . import TEST_BUCKET_NAME
 
 
-@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME))
+@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME), "Test bucket does not exist")
 class TestDssApi(unittest.TestCase):
     staging_bucket = TEST_BUCKET_NAME
 

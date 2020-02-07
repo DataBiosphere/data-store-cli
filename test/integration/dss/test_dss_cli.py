@@ -22,11 +22,10 @@ import dbio.dss
 import dbio.util.exceptions
 from dbio.dss.util import check_s3_bucket_exists
 from test import CapturingIO, reset_tweak_changes, TEST_DIR
-
 from . import TEST_BUCKET_NAME
 
 
-@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME))
+@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME), "Test bucket does not exist")
 class TestDssCLI(unittest.TestCase):
     staging_bucket = TEST_BUCKET_NAME
 
