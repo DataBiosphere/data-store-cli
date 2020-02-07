@@ -22,14 +22,12 @@ import dbio.dss
 import dbio.util.exceptions
 from dbio.dss.util import check_s3_bucket_exists
 from test import CapturingIO, reset_tweak_changes, TEST_DIR
+from . import TEST_BUCKET_NAME
 
 
+@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME), "Test bucket does not exist")
 class TestDssCLI(unittest.TestCase):
-    staging_bucket = "ucsc-cgp-dss-cli-test"
-
-    @classmethod
-    def setUpClass(cls):
-        self.assertTrue(check_s3_bucket_exists(self.staging_bucket))
+    staging_bucket = TEST_BUCKET_NAME
 
     def test_post_search_cli(self):
         query = json.dumps({})
@@ -193,9 +191,7 @@ class TestDssCLI(unittest.TestCase):
 
     @staticmethod
     @contextlib.contextmanager
-    def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'),
-                      replica='aws',
-                      staging_bucket=self.staging_bucket):
+    def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'), replica='aws'):
         """
         Implements a context manager that uploads a bundle to the data
         store using `dbio dss upload` then deletes it when done, if the
@@ -208,7 +204,7 @@ class TestDssCLI(unittest.TestCase):
         :returns: upload response object
         """
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    replica, '--staging-bucket', staging_bucket, '--no-progress']
+                    replica, '--staging-bucket', TestDssCLI.staging_bucket, '--no-progress']
         with CapturingIO('stdout') as stdout:
             dbio.cli.main(args=put_args)
         rv = json.loads(stdout.captured())
