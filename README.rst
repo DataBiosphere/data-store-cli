@@ -50,13 +50,13 @@ authenticate.
 
 One can also use: ``dbio dss login``.
 
-See `Google service credentials <https://cloud.google.com/iam/docs/understanding-service-accounts>`_ 
+See `Google service credentials <https://cloud.google.com/iam/docs/understanding-service-accounts>`_
 for more information about service accounts. Use the `Google Cloud IAM web console
 <https://console.cloud.google.com/iam-admin/serviceaccounts>`_ to manage service accounts.
 
 Development
 -----------
-To develop on the CLI, first run ``pip install -r requirements-dev.txt``. You can install your locally modified copy of 
+To develop on the CLI, first run ``pip install -r requirements-dev.txt``. You can install your locally modified copy of
 the ``dbio`` package by running ``make install`` in the repository root directory.
 
 To use the command line interface with a local or test DSS, first run ``dbio`` (or ``scripts/dbio`` if you want to use the
@@ -90,12 +90,12 @@ Then :code:`make test`.
 Primary CI testing is through Travis CI; there is also additional testing with the
 `Gitlab Allspark instance <https://allspark.dev.data.humancellatlas.org/HumanCellAtlas/dcp-cli/>`_ that runs tests for Windows.
 (Note that Allspark is not open to the public, members of the Human Cell Atlas project can access the Allspark cluster using the Github account
-associated with the Human Cell Atlas organization on Github.) If submitting PRs that have the potential of being platform-dependent, please ensure 
+associated with the Human Cell Atlas organization on Github.) If submitting PRs that have the potential of being platform-dependent, please ensure
 the status of "Windows Testing" is verified before merging.
 
 Bugs
 ~~~~
-Please report bugs, issues, feature requests, etc. in the 
+Please report bugs, issues, feature requests, etc. in the
 `HumanCellAtlas/dcp-cli repository on GitHub <https://github.com/HumanCellAtlas/dcp-cli/issues>`_.
 
 
