@@ -21,14 +21,16 @@ import dbio.dss
 from dbio.dss.util import iter_paths, object_name_builder, check_s3_bucket_exists
 from test import reset_tweak_changes, TEST_DIR
 
+from . import TEST_BUCKET_NAME
 
+
+@pytest.mark.skipif(check_s3_bucket_exists(TEST_BUCKET_NAME))
 class TestDssApi(unittest.TestCase):
-    staging_bucket = "ucsc-cgp-dss-cli-test"
+    staging_bucket = TEST_BUCKET_NAME
 
     @classmethod
     def setUpClass(cls):
         cls.client = dbio.dss.DSSClient()
-        cls.assertTrue(check_s3_bucket_exists(cls.staging_bucket))
 
     def test_set_host(self):
         with tempfile.TemporaryDirectory() as home:

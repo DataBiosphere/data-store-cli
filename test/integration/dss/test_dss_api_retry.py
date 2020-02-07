@@ -19,9 +19,12 @@ import dbio.dss
 from dbio.util import RetryPolicy
 from dbio.dss import upload_to_cloud
 
+from . import TEST_BUCKET_NAME
 
+
+@pytest.mark.skipif(check_s3_bucket_exists(TEST_BUCKET_NAME))
 class TestDssApiRetry(unittest.TestCase):
-    staging_bucket = "ucsc-cgp-dss-cli-test"
+    staging_bucket = TEST_BUCKET_NAME
     source_url = None
 
     @classmethod

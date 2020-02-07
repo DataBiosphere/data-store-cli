@@ -23,13 +23,12 @@ import dbio.util.exceptions
 from dbio.dss.util import check_s3_bucket_exists
 from test import CapturingIO, reset_tweak_changes, TEST_DIR
 
+from . import TEST_BUCKET_NAME
 
+
+@pytest.mark.skipif(check_s3_bucket_exists(TEST_BUCKET_NAME))
 class TestDssCLI(unittest.TestCase):
-    staging_bucket = "ucsc-cgp-dss-cli-test"
-
-    @classmethod
-    def setUpClass(cls):
-        cls.assertTrue(check_s3_bucket_exists(cls.staging_bucket))
+    staging_bucket = TEST_BUCKET_NAME
 
     def test_post_search_cli(self):
         query = json.dumps({})
