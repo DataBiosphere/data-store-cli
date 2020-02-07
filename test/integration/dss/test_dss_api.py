@@ -24,7 +24,7 @@ from test import reset_tweak_changes, TEST_DIR
 from . import TEST_BUCKET_NAME
 
 
-@pytest.mark.skipif(check_s3_bucket_exists(TEST_BUCKET_NAME))
+@unittest.skipIf(check_s3_bucket_exists(TEST_BUCKET_NAME))
 class TestDssApi(unittest.TestCase):
     staging_bucket = TEST_BUCKET_NAME
 
