@@ -193,9 +193,7 @@ class TestDssCLI(unittest.TestCase):
 
     @staticmethod
     @contextlib.contextmanager
-    def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'),
-                      replica='aws',
-                      staging_bucket=self.staging_bucket):
+    def _put_test_bdl(dirpath=os.path.join(TEST_DIR, 'res', 'bundle'), replica='aws'):
         """
         Implements a context manager that uploads a bundle to the data
         store using `dbio dss upload` then deletes it when done, if the
@@ -208,7 +206,7 @@ class TestDssCLI(unittest.TestCase):
         :returns: upload response object
         """
         put_args = ['dss', 'upload', '--src-dir', dirpath, '--replica',
-                    replica, '--staging-bucket', staging_bucket, '--no-progress']
+                    replica, '--staging-bucket', TestDssCLI.staging_bucket, '--no-progress']
         with CapturingIO('stdout') as stdout:
             dbio.cli.main(args=put_args)
         rv = json.loads(stdout.captured())
