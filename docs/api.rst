@@ -1,16 +1,16 @@
 =================
 API documentation
 =================
-.. automodule:: hca.dss
+.. automodule:: dbio.dss
    :members:
    :inherited-members:
 
-.. automodule:: hca.upload
+.. automodule:: dbio.upload
    :members:
 
-.. automodule:: hca.query
+.. automodule:: dbio.query
    :members:
 
-.. automodule:: hca.auth
+.. automodule:: dbio.auth
     :members:
     :inherited-members:

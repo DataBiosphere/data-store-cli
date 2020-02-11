@@ -2,7 +2,7 @@
 CLI documentation
 =================
 .. argparse::
-   :module: hca.cli
+   :module: dbio.cli
    :func: get_parser
-   :prog: hca
+   :prog: dbio
    :markdownhelp:
