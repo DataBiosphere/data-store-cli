@@ -2,31 +2,29 @@
 CLI Restricted Endpoint Examples
 ================================
 
-The HCA CLI provides users of the Human Cell Atlas (HCA) to access and download data sets from the HCA. This page
-covers how to access the HCA using the HCA command line utility.
+The DataBiosphere CLI provides several ways for users of the data store to access and download data sets from the
+data store. This page covers how to access the data store using the ``dbio`` command line utility.
 
 The CLI calls listed here are restricted to those with upload or ingest permissions.
-Data will be submitted through a single Ingestion Service API. Submitted data will go through
-basic quality assurance before it is deposited into the Data Storage System (DSS) component.
 
 In the document that follows, *privileged user* refers to a user with proper credentials and
 permission to upload/ingest data into the DSS.
 
-*NOTE:* The HCA CLI utility is compatible with Python 3.5+.
+*NOTE:* The Data Biosphere CLI utility is compatible with Python 3.5+.
 
 
-``hca delete-bundle``
----------------------
+``dbio delete-bundle``
+----------------------
 
 Deletes an existing bundle given a UUID, version, and replica.
 
-Example call to ``hca delete-bundle``:
+Example call to ``dbio delete-bundle``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/delete_bundle_cli.sh
 
 
-``hca put-bundle``
-------------------
+``dbio put-bundle``
+-------------------
 
 Creates a bundle. A bundle can contain multiple files of arbitrary type.
 
@@ -46,12 +44,12 @@ Inputs:
     * Name of the file
     * Boolean value - is this file indexed
 
-Example call to ``put_bundle()``:
+Example call to ``dbio put-bundle``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/put_bundle_cli.sh
 
-``hca patch-bundle``
---------------------
+``dbio patch-bundle``
+---------------------
 
 Allows user to pass in an optional list of files to add or remove from an exisiting bundle. 
 
@@ -67,33 +65,33 @@ Allows user to pass in an optional list of files to add or remove from an exisit
       }
     ]
 
-Example call to ``hca patch-bundle``:
+Example call to ``dbio patch-bundle``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/patch_bundle_cli.sh
 
 
-``hca put-file``
-----------------
+``dbio put-file``
+-----------------
 
 Creates a new version of a file, given an existing UUID, version, creator uid, and source URL.
 
-Example call to ``hca put-file``:
+Example call to ``dbio put-file``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/put_file_cli.sh
 
 
-``hca get-collection(s), hca put-collection, hca patch-collection, hca delete-collection``
-------------------------------------------------------------------------------------------
+``dbio get-collection(s), dbio put-collection, dbio patch-collection, dbio delete-collection``
+----------------------------------------------------------------------------------------------
 
-* ``hca get-collection`` - Given a collection UUID, get the collection.
+* ``dbio get-collection`` - Given a collection UUID, get the collection.
 
-* ``hca get-collections`` - Get a list of collections for a given user. 
+* ``dbio get-collections`` - Get a list of collections for a given user.
 
-* ``hca delete-collection`` - Given a collection UUID and replica, delete the collection from the replica. 
+* ``dbio delete-collection`` - Given a collection UUID and replica, delete the collection from the replica.
 
-* ``hca put-collection`` - Create a collection.
+* ``dbio put-collection`` - Create a collection.
 
-* ``hca patch-collection`` - Add or remove a given list of files from an existing collection. 
+* ``dbio patch-collection`` - Add or remove a given list of files from an existing collection.
 
 To add or remove files with the CLI actions above, specify each file in the following format:
 ::
@@ -111,11 +109,11 @@ Example CLI calls:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/put_delete_get_patch_collection_cli.sh
 
-``hca upload``
---------------
+``dbio upload``
+---------------
 
 Uploads a directory of files from the local filesystem and creates a bundle containing the uploaded files.
 
-Example call to ``hca upload``:
+Example call to ``dbio upload``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/upload_cli.sh

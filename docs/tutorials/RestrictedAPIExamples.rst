@@ -2,17 +2,15 @@
 Python Restricted Endpoint Examples
 ===================================
 
-The HCA API provides several ways for users of the Human Cell Atlas (HCA) to access and download
-data sets from the HCA. This page covers how to access the HCA using Python API bindings.
+The DataBiosphere API provides several ways for users of the data store to access and download data sets from the
+data store. This page covers how to access the data store using Python API bindings.
 
 The API calls listed here are restricted to those with upload or ingest permissions.
-Data will be submitted through a single Ingestion Service API. Submitted data will go through
-basic quality assurance before it is deposited into the Data Storage System (DSS) component.
 
-In the document that follows, *privileged user* refers to a user with proper credentials and
-permission to upload/ingest data into the DSS.
+In the document that follows, *privileged user* refers to a user with proper credentials and permission to
+upload/ingest data into the DSS.
 
-*NOTE:* The HCA CLI utility is compatible with Python 3.5+.
+*NOTE:* The Data Biosphere CLI utility is compatible with Python 3.5+.
 
 
 ``delete_bundle``

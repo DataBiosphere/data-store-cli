@@ -2,14 +2,14 @@
 CLI Open Endpoint Examples
 ==========================
 
-The HCA CLI provides several ways for users of the Human Cell Atlas (HCA) to access and download 
-data sets from the HCA. This page covers how to access the HCA using the ``hca`` command line utility.
+The DataBiosphere CLI provides several ways for users of the data store to access and download data sets from the
+data store. This page covers how to access the data store using the ``dbio`` command line utility.
 
-*NOTE:* The HCA CLI utility is compatible with Python 3.5+.
+*NOTE:* The Data Biosphere CLI utility is compatible with Python 3.5+.
 
 
-``hca create-version``
-----------------------
+``dbio create-version``
+-----------------------
 
 Returns a timestamp in ``DSS_VERSION`` format (e.g., ``1985-04-12T232050.520000Z``), necessary for
 versioning bundles or files.
@@ -19,23 +19,23 @@ versioning bundles or files.
   bundle or file. A bundle is a collection of many different data files, and both bundles and files 
   have version numbers.
 
-Example call to ``hca create-version``:
+Example call to ``dbio create-version``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/create_version_cli.sh
 
-``hca download``
-----------------
+``dbio download``
+-----------------
 
 Downloads a bundle to the local filesystem as a directory. By default, both data and metadata files
 are downloaded (flags can be added to download only the data or the metadata).
 
-Implementation detail: All files are downloaded to a local cache directory called ``.hca`` that is
+Implementation detail: All files are downloaded to a local cache directory called ``.dbio`` that is
 created in the directory where the download is initiated. The user should never need to interact
-directly with the ``.hca`` directory.
+directly with the ``.dbio`` directory.
 
 See note above regarding version numbering.
 
-Example call to ``hca get-bundle``:
+Example call to ``dbio get-bundle``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/download_cli.sh
 
@@ -91,8 +91,8 @@ Example response:
       }
     }
     
-``hca download-manifest``
--------------------------
+``dbio download-manifest``
+--------------------------
 
 Downloads a list of files specified in a user-provided manifest file.
 
@@ -110,7 +110,7 @@ The header row must define the columns:
 * ``file_sha256`` - the SHA-256 hash of the file
 * ``file_size`` - the size of the file
 
-Example call to ``hca download-manifest``:
+Example call to ``dbio download-manifest``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/download_manifest_cli.sh
 
@@ -119,16 +119,16 @@ Example manifest TSV file:
 ::
 
     bundle_uuid                             bundle_version              file_name               file_uuid                               file_version                file_sha256                                                         file_size   file_path
-    002aeac5-4d74-462d-baea-88f5c620cb50    2019-08-01T200147.836900Z   cell_suspension_0.json  c14b99ea-d8e2-4c84-9dc2-ce2245d8a743    2019-07-09T231935.003000Z   b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149    847         .hca/v2/files_2_4/b4/3ceb/b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149
+    002aeac5-4d74-462d-baea-88f5c620cb50    2019-08-01T200147.836900Z   cell_suspension_0.json  c14b99ea-d8e2-4c84-9dc2-ce2245d8a743    2019-07-09T231935.003000Z   b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149    847         .dbio/v2/files_2_4/b4/3ceb/b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149
 
 
-``hca file-head``
------------------
+``dbio file-head``
+------------------
 
 Returns the metadata for the latest version of a file with a given UUID. If the version is provided,
 the metadata for that specific version is returned instead. The metadata is returned in the headers.
 
-Example call to ``hca file-head``:
+Example call to ``dbio file-head``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/get_file_head_cli.sh
 
@@ -158,18 +158,18 @@ Example JSON header returned by API:
     }
 
 
-``hca get-bundle``
-------------------
+``dbio get-bundle``
+-------------------
 
 For a given bundle UUID and optionally a bundle version, returns information about the latest version
 of that bundle. Information returned includes the bundle creator, UUID, and version, as well as 
 information about each file in the bundle, such as the file name, UUID, version, etc.
 
-Example call to ``hca get-bundle``:
+Example call to ``dbio get-bundle``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/get_bundle_cli.sh
 
-Example JSON returned by ``hca get-bundle``:
+Example JSON returned by ``dbio get-bundle``:
 ::
 
     {
@@ -208,37 +208,37 @@ Example JSON returned by ``hca get-bundle``:
     }
 
 
-``hca get-bundles-checkout``
-----------------------------
+``dbio get-bundles-checkout``
+-----------------------------
 
 .. note:
-    To get the ``checkout-job-id``, use the ``hca post-bundles-checkout`` action.
+    To get the ``checkout-job-id``, use the ``dbio post-bundles-checkout`` action.
 
 Check the status and location of a checkout request.
 
-Example call to ``hca get-bundles-checkout``:
+Example call to ``dbio get-bundles-checkout``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/get_bundles_checkout_cli.sh
 
-Example JSON returned by ``hca get-bundles-checkout``:
+Example JSON returned by ``dbio get-bundles-checkout``:
 ::
 
     {
-      "location": "s3://org-hca-dss-checkout-prod/bundles/fff54b87-26fe-42a9-be54-3f5a7ef8176e.2019-03-26T131455.775610Z",
+      "location": "s3://ucsc-cgp-dss-checkout-prod/bundles/fff54b87-26fe-42a9-be54-3f5a7ef8176e.2019-03-26T131455.775610Z",
       "status": "SUCCEEDED"
     }
 
 
-``hca get-file``
-----------------
+``dbio get-file``
+-----------------
 
 Retrieves a file given a UUID, optionally a version, and displays the details of the file.
 
-Example call to ``hca get-file``:
+Example call to ``dbio get-file``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/get_file_cli.sh
 
-Example JSON returned by ``hca get-file``:
+Example JSON returned by ``dbio get-file``:
 ::
 
     {
@@ -261,39 +261,39 @@ Example JSON returned by ``hca get-file``:
     }
 
 
-``hca login``
--------------
+``dbio login``
+--------------
 
 Configures and saves authentication credentials.
 
-Example call to ``hca login``:
+Example call to ``dbio login``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/login_cli.sh
 
 
-``hca logout``
---------------
+``dbio logout``
+---------------
 
 Clears authentication credentials previously configured with login.
 
-Example call to ``hca logout``:
+Example call to ``dbio logout``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/logout_cli.sh
 
 
-``hca post-bundles-checkout``
------------------------------
+``dbio post-bundles-checkout``
+------------------------------
 
 Returns a ``checkout-job-id`` (e.g., ``4de1c603-fa8b-4c07-af37-06159e6951e0``). This
 ``checkout-job-id`` can then be used with the ``get_bundles_checkout()`` method.
 
-Example call to ``hca post-bundles-checkout``:
+Example call to ``dbio post-bundles-checkout``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/post_bundles_checkout_cli.sh
 
 
-``hca post-search``
--------------------
+``dbio post-search``
+--------------------
 
 Find bundles by their ``bundle_fqid``, which is the bundle's UUID and version separated by a dot (.).
 
@@ -303,7 +303,7 @@ a bundle with the UUID ``fff807ba-bc98-4247-a560-49fb90c9675c`` and the version 
 
 This method returns an FQID and URL for each matching bundle.
 
-Example call to ``hca post-search``:
+Example call to ``dbio post-search``:
 
 .. literalinclude:: ../../test/tutorial/scripts/cli/post_search_cli.sh
 
@@ -315,15 +315,15 @@ Example output:
     },
     {
       "bundle_fqid": "fff807ba-bc98-4247-a560-49fb90c9675c.2019-08-01T200147.111027Z",
-      "bundle_url": "https://dss.data.humancellatlas.org/v1/bundles/fff807ba-bc98-4247-a560-49fb90c9675c?version=2019-08-01T200147.111027Z&replica=aws",
+      "bundle_url": "https://dss.dev.ucsc-cgp-redwood.org/v1/bundles/fff807ba-bc98-4247-a560-49fb90c9675c?version=2019-08-01T200147.111027Z&replica=aws",
       "search_score": null
     },
     {
       ...
     }
 
-``hca get-subscription(s), hca put-subscription, hca delete-subscription``
---------------------------------------------------------------------------
+``dbio get-subscription(s), dbio put-subscription, dbio delete-subscription``
+-----------------------------------------------------------------------------
 
 * ``get_subscriptions()``: Gets a list of users subscription.
 
@@ -338,8 +338,8 @@ Example CLI calls:
 .. literalinclude:: ../../test/tutorial/scripts/cli/put_delete_get_sub_cli.sh
 
 
-``hca refresh-swagger``
------------------------
+``dbio refresh-swagger``
+------------------------
 
 Manually refresh the swagger document.
 
