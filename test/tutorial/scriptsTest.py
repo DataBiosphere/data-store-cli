@@ -58,93 +58,99 @@ class TestDSSDocAPI(unittest.TestCase):
         n = re.search(pattern, outerr)
         self.assertNotEqual(n, None, n)
 
-    def testDownloadManifest_api(self):
-        self.checkExpectedOut(
-            "api", "download_manifest_api.py", "Overwriting manifest manifest.tsv"
-        )
+    # ------------------------------------------------------
+    # The following tests are disabled because
+    # they depend on data that are only present
+    # in the Human Cell Atlas (prod) data store.
+    # ------------------------------------------------------
 
-    def testLogin_api(self):
-        self.checkExpectedOut("api", "login_api.py", "Storing access credentials")
+    # def testDownloadManifest_api(self):
+    #     self.checkExpectedOut(
+    #         "api", "download_manifest_api.py", "Overwriting manifest manifest.tsv"
+    #     )
 
-    def testCreateVersion_api(self):
-        self.checkExpectedPattern(
-            "api",
-            "create_version_api.py",
-            "[0-9]{4}-[0-9]{2}-[A-Za-z0-9]{9}.[A-Za-z0-9]{7}",
-        )
+    # def testLogin_api(self):
+    #     self.checkExpectedOut("api", "login_api.py", "Storing access credentials")
 
-    def testgetBundle_api(self):
-        self.checkExpectedOut("api", "get_bundle_api.py", "content-type")
+    # def testCreateVersion_api(self):
+    #     self.checkExpectedPattern(
+    #         "api",
+    #         "create_version_api.py",
+    #         "[0-9]{4}-[0-9]{2}-[A-Za-z0-9]{9}.[A-Za-z0-9]{7}",
+    #     )
 
-    def testGetBundlesCheckout_api(self):
-        self.checkExpectedOut("api", "get_bundles_checkout_api.py", "status")
+    # def testgetBundle_api(self):
+    #     self.checkExpectedOut("api", "get_bundle_api.py", "content-type")
 
-    def testGetFile_api(self):
-        self.checkExpectedOut("api", "get_file_api.py", "type")
+    # def testGetBundlesCheckout_api(self):
+    #     self.checkExpectedOut("api", "get_bundles_checkout_api.py", "status")
 
-    def testGetFileHead_api(self):
-        self.checkExpectedOut(
-            "api", "get_file_head_api.py", "<Response [200]>\n<Response [200]>"
-        )
+    # def testGetFile_api(self):
+    #     self.checkExpectedOut("api", "get_file_api.py", "type")
 
-    def testPostBundlesCheckout_api(self):
-        self.checkExpectedOut("api", "post_bundles_checkout_api.py", "checkout_job_id")
+    # def testGetFileHead_api(self):
+    #     self.checkExpectedOut(
+    #         "api", "get_file_head_api.py", "<Response [200]>\n<Response [200]>"
+    #     )
 
-    def testPostSearch_api(self):
-        self.checkExpectedOut("api", "post_search_api.py", "bundle_fqid")
+    # def testPostBundlesCheckout_api(self):
+    #     self.checkExpectedOut("api", "post_bundles_checkout_api.py", "checkout_job_id")
 
-    def testRefreshSwagger_api(self):
-        self.checkExitCode("api", "refresh_swagger_api.py")
+    # def testPostSearch_api(self):
+    #     self.checkExpectedOut("api", "post_search_api.py", "bundle_fqid")
 
-    def testDownload_api(self):
-        self.checkExitCode("api", "download_api.py")
+    # def testRefreshSwagger_api(self):
+    #     self.checkExitCode("api", "refresh_swagger_api.py")
 
-    def testLogout_api(self):
-        self.checkExitCode("api", "logout_api.py")
+    # def testDownload_api(self):
+    #     self.checkExitCode("api", "download_api.py")
 
-    def testDownloadManifest_cli(self):
-        self.checkExpectedOut(
-            "cli", "download_manifest_cli.sh", "Overwriting manifest manifest.tsv"
-        )
+    # def testLogout_api(self):
+    #     self.checkExitCode("api", "logout_api.py")
 
-    def testLogin_cli(self):
-        self.checkExpectedOut("cli", "login_cli.sh", "Storing access credentials")
+    # def testDownloadManifest_cli(self):
+    #     self.checkExpectedOut(
+    #         "cli", "download_manifest_cli.sh", "Overwriting manifest manifest.tsv"
+    #     )
 
-    def testCreateVersion_cli(self):
-        self.checkExpectedPattern(
-            "cli",
-            "create_version_cli.sh",
-            "[0-9]{4}-[0-9]{2}-[A-Za-z0-9]{9}.[A-Za-z0-9]{7}",
-        )
+    # def testLogin_cli(self):
+    #     self.checkExpectedOut("cli", "login_cli.sh", "Storing access credentials")
 
-    def testgetBundle_cli(self):
-        self.checkExpectedOut("cli", "get_bundle_cli.sh", "content-type")
+    # def testCreateVersion_cli(self):
+    #     self.checkExpectedPattern(
+    #         "cli",
+    #         "create_version_cli.sh",
+    #         "[0-9]{4}-[0-9]{2}-[A-Za-z0-9]{9}.[A-Za-z0-9]{7}",
+    #     )
 
-    def testGetBundlesCheckout_cli(self):
-        self.checkExpectedOut("cli", "get_bundles_checkout_cli.sh", "status")
+    # def testgetBundle_cli(self):
+    #     self.checkExpectedOut("cli", "get_bundle_cli.sh", "content-type")
 
-    def testGetFile_cli(self):
-        self.checkExpectedOut("cli", "get_file_cli.sh", "describedBy")
+    # def testGetBundlesCheckout_cli(self):
+    #     self.checkExpectedOut("cli", "get_bundles_checkout_cli.sh", "status")
 
-    def testGetFileHead_cli(self):
-        self.checkExpectedOut(
-            "cli", "get_file_head_cli.sh", "<Response [200]>\n<Response [200]>"
-        )
+    # def testGetFile_cli(self):
+    #     self.checkExpectedOut("cli", "get_file_cli.sh", "describedBy")
 
-    def testPostBundlesCheckout_cli(self):
-        self.checkExpectedOut("cli", "post_bundles_checkout_cli.sh", "checkout_job_id")
+    # def testGetFileHead_cli(self):
+    #     self.checkExpectedOut(
+    #         "cli", "get_file_head_cli.sh", "<Response [200]>\n<Response [200]>"
+    #     )
 
-    def testPostSearch_cli(self):
-        self.checkExpectedOut("cli", "post_search_cli.sh", "bundle_fqid")
+    # def testPostBundlesCheckout_cli(self):
+    #     self.checkExpectedOut("cli", "post_bundles_checkout_cli.sh", "checkout_job_id")
 
-    def testRefreshSwagger_cli(self):
-        self.checkExitCode("cli", "refresh_swagger_cli.sh")
+    # def testPostSearch_cli(self):
+    #     self.checkExpectedOut("cli", "post_search_cli.sh", "bundle_fqid")
 
-    def testDownload_cli(self):
-        self.checkExitCode("cli", "download_cli.sh")
+    # def testRefreshSwagger_cli(self):
+    #     self.checkExitCode("cli", "refresh_swagger_cli.sh")
 
-    def testLogout_cli(self):
-        self.checkExitCode("cli", "logout_cli.sh")
+    # def testDownload_cli(self):
+    #     self.checkExitCode("cli", "download_cli.sh")
+
+    # def testLogout_cli(self):
+    #     self.checkExitCode("cli", "logout_cli.sh")
 
    
 # ---------------------------------------
