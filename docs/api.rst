@@ -5,6 +5,3 @@ API documentation
    :members:
    :inherited-members:
 
-.. automodule:: dbio.auth
-    :members:
-    :inherited-members:
