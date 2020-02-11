@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# hca-cli documentation build configuration file, created by
+# dbio-cli documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul  3 11:12:29 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'HCA CLI'
+project = 'DBio CLI'
 copyright = '2017, James Mackey, Andrey Kislyuk'
 author = 'James Mackey'
 
@@ -124,7 +124,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'hca-clidoc'
+htmlhelp_basename = 'dbio-clidoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -151,7 +151,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'hca-cli.tex', 'hca-cli Documentation',
+    (master_doc, 'dbio-cli.tex', 'dbio-cli Documentation',
      'James Mackey, Andrey Kislyuk', 'manual'),
 ]
 
@@ -161,7 +161,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'hca-cli', 'hca-cli Documentation',
+    (master_doc, 'dbio-cli', 'dbio-cli Documentation',
      [author], 1)
 ]
 
@@ -172,16 +172,16 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'hca-cli', 'hca-cli Documentation',
-     author, 'hca-cli', 'One line description of project.',
+    (master_doc, 'dbio-cli', 'dbio-cli Documentation',
+     author, 'dbio-cli', 'One line description of project.',
      'Miscellaneous'),
 ]
 
 
 # -- Do not remove. -------------------------------------------------------
-# To generate the API autodocs for hca.util.SwaggerClient driven clients,
+# To generate the API autodocs for dbio.util.SwaggerClient driven clients,
 # call the constructor for each of the clients to dynamically build the
 # API client methods and their docstrings.
-import hca
-for swagger_client in hca.util.SwaggerClient.__subclasses__():
+import dbio
+for swagger_client in dbio.util.SwaggerClient.__subclasses__():
     swagger_client()
