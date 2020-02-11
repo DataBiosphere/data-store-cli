@@ -1,13 +1,13 @@
-DataBiosphere Data Store CLI Client
-===================================
+Data Biosphere Data Store CLI Client
+====================================
 
 This repository is a pip installable Command Line Interface (CLI) and Python library (API) for interacting with the
-DataBiosphere Data Store (DSS).
+Data Biosphere Data Store (DSS).
 
-Currently the `dbio` package supports interaction with the `Data Store <https://github.com/DataBiosphere/data-store>`_
+Currently the `dbio` package supports interaction with the `Data Store <https://github.com/Data Biosphere/data-store>`_
 for uploading, downloading, and fetching information about data in the data store.
 
-The DataBiosphere CLI is compatible with Python versions 3.5+.
+The Data Biosphere CLI is compatible with Python versions 3.5+.
 
 Installation
 ------------
@@ -27,7 +27,7 @@ To see the list of commands you can use, type :code:`dbio --help`.
 
 Configuration management
 ~~~~~~~~~~~~~~~~~~~~~~~~
-The DataBiosphere CLI supports ingesting configuration from a configurable array of sources. Each source is a JSON file.
+The Data Biosphere CLI supports ingesting configuration from a configurable array of sources. Each source is a JSON file.
 Configuration sources that follow the first source update the configuration using recursive dictionary merging. Sources
 are enumerated in the following order (i.e., in order of increasing priority):
 
@@ -36,14 +36,14 @@ are enumerated in the following order (i.e., in order of increasing priority):
 - Any sources listed in the colon-delimited variable ``DBIO_CONFIG_FILE``
 - Command line options
 
-**Array merge operators**: When loading a chain of configuration sources, the DataBiosphere CLI uses recursive
+**Array merge operators**: When loading a chain of configuration sources, the Data Biosphere CLI uses recursive
 dictionary merging to combine the sources. Additionally, when the original config value is a list, the package
 supports array manipulation operators, which let you extend and modify arrays defined in underlying configurations.
 See https://github.com/kislyuk/tweak#array-merge-operators for a list of these operators.
 
 Service to Service Authorization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Google service credentials must be whitelisted before they will authenticate with the DataBiosphere CLI.
+Google service credentials must be whitelisted before they will authenticate with the Data Biosphere CLI.
 
 Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of your Google service credentials file to
 authenticate.
@@ -75,7 +75,7 @@ constructor via the ``swagger_url`` parameter::
 You can also layer a minimal config file on top of the default ``config.json`` using the ``DBIO_CONFIG_FILE`` environment
 variable, for example::
 
-    export SWAGGER_URL="https://dss.staging.data.humancellatlas.org/v1/swagger.json"
+    export SWAGGER_URL="https://dss.dev.ucsc-cgp-redwood.org/v1/swagger.json"
     jq -n .DSSClient.swagger_url=env.SWAGGER_URL > ~/.config/dbio/config.staging.json
     export DBIO_CONFIG_FILE=~/.config/dbio/config.staging.json
 
@@ -88,10 +88,9 @@ from `here <https://github.com/HumanCellAtlas/data-store/blob/master/environment
 Then :code:`make test`.
 
 Primary CI testing is through Travis CI; there is also additional testing with the
-`Gitlab Allspark instance <https://allspark.dev.data.humancellatlas.org/HumanCellAtlas/dcp-cli/>`_ that runs tests for Windows.
-(Note that Allspark is not open to the public, members of the Human Cell Atlas project can access the Allspark cluster using the Github account
-associated with the Human Cell Atlas organization on Github.) If submitting PRs that have the potential of being platform-dependent, please ensure
-the status of "Windows Testing" is verified before merging.
+`Gitlab toilspark instance <https://ucsc-ci.org/DataBiosphere/data-store-cli>`_ that runs tests for Windows.
+If submitting PRs that have the potential of being platform-dependent, please ensure the status of "Windows
+Testing" is verified before merging.
 
 Bugs
 ~~~~
