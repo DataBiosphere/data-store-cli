@@ -4,7 +4,7 @@ Data Biosphere Data Store CLI Client
 This repository is a pip-installable command line interface (CLI) and Python library (API) for interacting with the
 Data Biosphere Data Storage System (DSS), also called the data store.
 
-Currently the `dbio` package supports interaction with the `data store <https://github.com/Data Biosphere/data-store>`_
+Currently the `dbio` package supports interaction with the `data store <https://github.com/DataBiosphere/data-store>`_
 for uploading, downloading, and fetching information about data in the data store.
 
 The Data Biosphere CLI is compatible with Python versions 3.5+.
