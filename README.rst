@@ -98,7 +98,7 @@ Please report bugs, issues, feature requests, etc. in the
 
 Security Policy
 ---------------
-Please email reportsabout any security related issues you find to `team-redwood@ucsc.edu`.
+Please email reports about any securityrelated issues you find to `team-redwood@ucsc.edu`.
 Use a descriptive subject line for your report email. In addition, please include the following information
 along with your report:
 
