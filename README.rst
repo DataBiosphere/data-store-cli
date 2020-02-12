@@ -19,9 +19,9 @@ Usage
 
 Documentation on readthedocs.io:
 
-* `CLI documentation <https://dbio.readthedocs.io/en/latest/cli.html>`_
+* `CLI documentation <https://dbio-cli.readthedocs.io/en/latest/cli.html>`_
 
-* `Python API documentation <https://dbio.readthedocs.io/en/latest/api.html>`_
+* `Python API documentation <https://dbio-cli.readthedocs.io/en/latest/api.html>`_
 
 To see the list of commands you can use, type :code:`dbio --help`.
 
@@ -124,5 +124,5 @@ Licensed under the terms of the `MIT License <https://opensource.org/licenses/MI
         :target: https://pypi.python.org/pypi/dbio
 .. image:: https://img.shields.io/pypi/l/dbio.svg
         :target: https://pypi.python.org/pypi/dbio
-.. image:: https://readthedocs.org/projects/dbio/badge/?version=latest
-        :target: https://dbio.readthedocs.io/
+.. image:: https://readthedocs.org/projects/dbio-cli/badge/?version=latest
+        :target: https://dbio-cli.readthedocs.io/
