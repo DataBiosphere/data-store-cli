@@ -87,10 +87,8 @@ from `here <https://github.com/HumanCellAtlas/data-store/blob/master/environment
 
 Then :code:`make test`.
 
-Primary CI testing is through Travis CI; there is also additional testing with the
-`Gitlab toilspark instance <https://ucsc-ci.org/DataBiosphere/data-store-cli>`_ that runs tests for Windows.
-If submitting PRs that have the potential of being platform-dependent, please ensure the status of "Windows
-Testing" is verified before merging.
+Primary CI testing is through Travis CI on the
+`Gitlab toilspark instance <https://ucsc-ci.org/DataBiosphere/data-store-cli>`_.
 
 Bugs
 ~~~~
