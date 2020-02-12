@@ -11,7 +11,7 @@ setup(
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
     author='University of California Santa Cruz',
-    author_email='akislyuk@chanzuckerberg.com',
+    author_email='team-redwood@ucsc.edu',
     description='Data Biosphere Data Store Command Line Interface',
     long_description=open('README.rst').read(),
     install_requires=install_requires,
