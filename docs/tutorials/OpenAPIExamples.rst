@@ -2,10 +2,10 @@
 Python Open Endpoint Examples
 =============================
 
-The HCA API provides several ways for users of the Human Cell Atlas (HCA) to access and download
-data sets from the HCA. This page covers how to access HCA data using Python API bindings.
+The DataBiosphere API provides several ways for users of the data store to access and download data sets from the
+data store. This page covers how to access the data store using Python API bindings.
 
-*NOTE:* The HCA CLI utility is compatible with Python 3.5+.
+*NOTE:* The Data Biosphere CLI utility is compatible with Python 3.5+.
 
 
 ``create_version``
@@ -31,9 +31,9 @@ Downloads a bundle to the local filesystem as a directory. By default, both data
 are downloaded. The ``no_data`` or ``no_metadata`` flags can be set to True to download only the metadata
 or data, respectively (see example below).
 
-Implementation detail: All files are downloaded to a local cache directory called ``.hca`` that is
+Implementation detail: All files are downloaded to a local cache directory called ``.dbio`` that is
 created in the directory where the download is initiated. The user should never need to interact
-directly with the ``.hca`` directory.
+directly with the ``.dbio`` directory.
 
 See note above regarding version numbering.
 
@@ -127,7 +127,7 @@ Example manifest TSV file:
 ::
 
     bundle_uuid                             bundle_version              file_name               file_uuid                               file_version                file_sha256                                                         file_size   file_path
-    002aeac5-4d74-462d-baea-88f5c620cb50    2019-08-01T200147.836900Z   cell_suspension_0.json  c14b99ea-d8e2-4c84-9dc2-ce2245d8a743    2019-07-09T231935.003000Z   b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149    847         .hca/v2/files_2_4/b4/3ceb/b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149
+    002aeac5-4d74-462d-baea-88f5c620cb50    2019-08-01T200147.836900Z   cell_suspension_0.json  c14b99ea-d8e2-4c84-9dc2-ce2245d8a743    2019-07-09T231935.003000Z   b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149    847         .dbio/v2/files_2_4/b4/3ceb/b43cebcca9cd5213699acce7356d226de07edef5c5604510a697159af1a12149
 
 
 ``file_head``
@@ -232,7 +232,7 @@ Example of the JSON returned by ``get_bundles_checkout()``:
 ::
 
     {
-      "location": "s3://org-hca-dss-checkout-prod/bundles/fff54b87-26fe-42a9-be54-3f5a7ef8176e.2019-03-26T131455.775610Z",
+      "location": "s3://ucsc-cgp-dss-checkout-prod/bundles/fff54b87-26fe-42a9-be54-3f5a7ef8176e.2019-03-26T131455.775610Z",
       "status": "SUCCEEDED"
     }
 
@@ -240,7 +240,7 @@ Example of the JSON returned by ``get_bundles_checkout()``:
 ``get_file``
 ------------
 
-Retrieves file metadata given a UUID, optionally a version. (To download a file, use the ``hca download`` command.)
+Retrieves file metadata given a UUID, optionally a version. (To download a file, use the ``dbio download`` command.)
 
 Example call to ``get_file()``:
 
@@ -320,7 +320,7 @@ Example output:
     },
     {
         "bundle_fqid": "fff807ba-bc98-4247-a560-49fb90c9675c.2019-08-01T200147.111027Z",
-        "bundle_url": "https://dss.data.humancellatlas.org/v1/bundles/fff807ba-bc98-4247-a560-49fb90c9675c?version=2019-08-01T200147.111027Z&replica=aws",
+        "bundle_url": "https://dss.dev.ucsc-cgp-redwood.org/v1/bundles/fff807ba-bc98-4247-a560-49fb90c9675c?version=2019-08-01T200147.111027Z&replica=aws",
         "search_score": null
     },
     {

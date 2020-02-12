@@ -1,7 +1,7 @@
-HCA Tutorials
-=============
+Data Store Tutorials
+====================
 
-This page contains tutorials for using the HCA tools in this repo.
+This page contains tutorials for using the data store tools in this repo.
 
 .. toctree::
    :maxdepth: 5

@@ -19,6 +19,7 @@ _pagination_docstring = """
 
  The keyword arguments for ``{client_name}.{method_name}.iterate()`` are identical to the arguments for
  ``{client_name}.{method_name}()`` listed here.
+
 """
 
 _streaming_docstring = """
@@ -39,6 +40,7 @@ _streaming_docstring = """
 
  The keyword arguments for ``{client_name}.{method_name}.stream()`` are identical to the arguments for
  ``{client_name}.{method_name}()`` listed here.
+
 """
 
 
