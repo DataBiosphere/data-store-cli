@@ -48,7 +48,7 @@ master_doc = 'index'
 # General information about the project.
 project = 'DBio CLI'
 copyright = ''
-author = 'James Mackey'
+author = ''
 
 # A string of reStructuredText that will be included at the end of every source file that is read.
 rst_epilog = """
