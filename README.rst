@@ -98,7 +98,18 @@ Please report bugs, issues, feature requests, etc. in the
 
 Security Policy
 ---------------
-See our `Security Policy <https://github.com/HumanCellAtlas/.github/blob/master/SECURITY.md>`_.
+Please email reportsabout any security related issues you find to `team-redwood@ucsc.edu`.
+Use a descriptive subject line for your report email. In addition, please include the following information
+along with your report:
+
+* Your name and affiliation (if any).
+
+* A description of the technical details of the vulnerabilities, to help us reproduce your findings.
+
+* An explanation of who can exploit this vulnerability, and what they gain when doing so (an attack scenario).
+
+* Whether this vulnerability is public or known to third parties. If so, please provide details.
+
 
 License
 -------
