@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 install_requires = [line.rstrip() for line in open(os.path.join(os.path.dirname(__file__), "requirements.txt"))]
 
 setup(
-    name="dbio",
+    name="dbio-cli",
     version='7.0.0',
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
