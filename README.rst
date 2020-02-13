@@ -12,7 +12,7 @@ The Data Biosphere CLI is compatible with Python versions 3.5+.
 Installation
 ------------
 
-:code:`pip install dbio`.
+:code:`pip install dbio-cli`.
 
 Usage
 -----
@@ -93,7 +93,7 @@ Primary CI testing is through Travis CI on the
 Bugs
 ~~~~
 Please report bugs, issues, feature requests, etc. in the
-`HumanCellAtlas/dcp-cli repository on GitHub <https://github.com/DataBiosphere/data-store-cli/issues>`_.
+`DataBiosphere/data-store-cli repository on GitHub <https://github.com/DataBiosphere/data-store-cli/issues>`_.
 
 
 Security Policy
@@ -115,14 +115,14 @@ License
 -------
 Licensed under the terms of the `MIT License <https://opensource.org/licenses/MIT>`_.
 
-.. image:: https://img.shields.io/travis/DataBiosphere/data-store-cli.svg?branch=master
-        :target: https://travis-ci.org/DataBiosphere/data-store-cli?branch=master
+.. image:: https://api.travis-ci.com/DataBiosphere/data-store-cli.svg?branch=master
+        :target: https://travis-ci.com/DataBiosphere/data-store-cli?branch=master
 .. image:: https://codecov.io/github/DataBiosphere/data-store-cli/coverage.svg?branch=master
         :target: https://codecov.io/github/DataBiosphere/data-store-cli?branch=master
 
-.. image:: https://img.shields.io/pypi/v/dbio.svg
-        :target: https://pypi.python.org/pypi/dbio
-.. image:: https://img.shields.io/pypi/l/dbio.svg
-        :target: https://pypi.python.org/pypi/dbio
+.. image:: https://img.shields.io/pypi/v/dbio-cli.svg
+        :target: https://pypi.python.org/pypi/dbio-cli
+.. image:: https://img.shields.io/pypi/l/dbio-cli.svg
+        :target: https://pypi.python.org/pypi/dbio-cli
 .. image:: https://readthedocs.org/projects/dbio-cli/badge/?version=latest
         :target: https://dbio-cli.readthedocs.io/
