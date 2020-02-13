@@ -115,8 +115,8 @@ License
 -------
 Licensed under the terms of the `MIT License <https://opensource.org/licenses/MIT>`_.
 
-.. image:: https://img.shields.io/travis/DataBiosphere/data-store-cli.svg?branch=master
-        :target: https://travis-ci.org/DataBiosphere/data-store-cli?branch=master
+.. image:: https://api.travis-ci.com/DataBiosphere/data-store-cli.svg?branch=master
+        :target: https://travis-ci.com/DataBiosphere/data-store-cli?branch=master
 .. image:: https://codecov.io/github/DataBiosphere/data-store-cli/coverage.svg?branch=master
         :target: https://codecov.io/github/DataBiosphere/data-store-cli?branch=master
 
