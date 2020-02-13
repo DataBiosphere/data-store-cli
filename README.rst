@@ -19,9 +19,9 @@ Usage
 
 Documentation on readthedocs.io:
 
-* `CLI documentation <https://dbio.readthedocs.io/en/latest/cli.html>`_
+* `CLI documentation <https://dbio-cli.readthedocs.io/en/latest/cli.html>`_
 
-* `Python API documentation <https://dbio.readthedocs.io/en/latest/api.html>`_
+* `Python API documentation <https://dbio-cli.readthedocs.io/en/latest/api.html>`_
 
 To see the list of commands you can use, type :code:`dbio --help`.
 
@@ -83,7 +83,7 @@ Testing
 -------
 Before you run tests, first run ``dbio dss login``.  This will open a browser where you can log in to authenticate
 with Google. Use an email address from one of the whitelisted domains (in ``DSS_SUBSCRIPTION_AUTHORIZED_DOMAINS_ARRAY``
-from `here <https://github.com/HumanCellAtlas/data-store/blob/master/environment#L55>`_).
+from `here <https://github.com/DataBiosphere/data-store/blob/master/environment#L55>`_).
 
 Then :code:`make test`.
 
@@ -93,12 +93,12 @@ Primary CI testing is through Travis CI on the
 Bugs
 ~~~~
 Please report bugs, issues, feature requests, etc. in the
-`HumanCellAtlas/dcp-cli repository on GitHub <https://github.com/HumanCellAtlas/dcp-cli/issues>`_.
+`HumanCellAtlas/dcp-cli repository on GitHub <https://github.com/DataBiosphere/data-store-cli/issues>`_.
 
 
 Security Policy
 ---------------
-Please email reports about any securityrelated issues you find to `team-redwood@ucsc.edu`.
+Please email reports about any security related issues you find to `team-redwood@ucsc.edu`.
 Use a descriptive subject line for your report email. In addition, please include the following information
 along with your report:
 
@@ -115,14 +115,14 @@ License
 -------
 Licensed under the terms of the `MIT License <https://opensource.org/licenses/MIT>`_.
 
-.. image:: https://img.shields.io/travis/HumanCellAtlas/dcp-cli.svg?branch=master
-        :target: https://travis-ci.org/HumanCellAtlas/dcp-cli?branch=master
-.. image:: https://codecov.io/github/HumanCellAtlas/dcp-cli/coverage.svg?branch=master
-        :target: https://codecov.io/github/HumanCellAtlas/dcp-cli?branch=master
+.. image:: https://img.shields.io/travis/DataBiosphere/data-store-cli.svg?branch=master
+        :target: https://travis-ci.org/DataBiosphere/data-store-cli?branch=master
+.. image:: https://codecov.io/github/DataBiosphere/data-store-cli/coverage.svg?branch=master
+        :target: https://codecov.io/github/DataBiosphere/data-store-cli?branch=master
 
 .. image:: https://img.shields.io/pypi/v/dbio.svg
         :target: https://pypi.python.org/pypi/dbio
 .. image:: https://img.shields.io/pypi/l/dbio.svg
         :target: https://pypi.python.org/pypi/dbio
-.. image:: https://readthedocs.org/projects/dbio/badge/?version=latest
-        :target: https://dbio.readthedocs.io/
+.. image:: https://readthedocs.org/projects/dbio-cli/badge/?version=latest
+        :target: https://dbio-cli.readthedocs.io/
