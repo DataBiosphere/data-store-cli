@@ -7,7 +7,7 @@ install_requires = [line.rstrip() for line in open(os.path.join(os.path.dirname(
 
 setup(
     name="dbio-cli",
-    version='7.0.0',
+    version='1.0.0',
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
     author='University of California Santa Cruz',
