@@ -286,6 +286,11 @@ class SwaggerClient(object):
         return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-group-claim']) or \
             urljoin(self._audience(), 'group')
 
+    @property
+    def auth0_claim(self):
+        return _deep_get(self.swagger_spec, ['securityDefinitions', 'OauthSecurity', 'x-auth0-claim']) or \
+            urljoin(self._audience(), 'auth0')
+
     @staticmethod
     def load_swagger_json(swagger_json, ptr_str="$ref"):
         """
