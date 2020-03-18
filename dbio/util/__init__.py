@@ -274,7 +274,7 @@ class SwaggerClient(object):
 
     def _audience(self):
         return _deep_get(self.swagger_spec, ["securityDefinitions", "OauthSecurity", "x-audience"]) or \
-            "https://auth.ucsc.ucsc-cgp-redwood.org"
+            "https://auth.dev.ucsc-cgp-redwood.org"
 
     @property
     def email_claim(self):
@@ -459,7 +459,8 @@ class SwaggerClient(object):
                    'email': service_credentials["client_email"],
                    'scope': ['email', 'openid', 'offline_access'],
                    self.group_claim: 'dbio',
-                   self.email_claim: service_credentials['client_email']
+                   self.email_claim: service_credentials['client_email'],
+                   self.auth0_claim: dict(groups=['service-account'])
                    }
         additional_headers = {'kid': service_credentials["private_key_id"]}
         signed_jwt = jwt.encode(payload, service_credentials["private_key"], headers=additional_headers,
