@@ -463,7 +463,7 @@ class TestProdDSSApi(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        cls.client = hca.dss.DSSClient(swagger_url="https://dss.data.humancellatlas.org/v1/swagger.json")
+        cls.client = hca.dss.DSSClient(swagger_url="https://dss.dev.data.humancellatlas.org/v1/swagger.json")
 
     @classmethod
     def tearDownClass(cls) -> None:
