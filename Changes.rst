@@ -1,3 +1,10 @@
+Changes for v1.1.0 (2021-03-22)
+===============================
+
+fixed aud def, added auth0 claim to jwt (#64) Add method to get Auth0
+token claim from swagger (#61) hca->dbio (#59) Update a few more links
+in Readme (#57) update team redwood email address (#58)
+
 Changes for v1.0.0 (2020-02-13)
 ===============================
 
