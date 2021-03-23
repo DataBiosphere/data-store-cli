@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
     
 setup(
     name="dbio-cli",
-    version='1.5.1',
+    version='1.5.2',
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
     author='University of California Santa Cruz',
