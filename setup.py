@@ -13,7 +13,7 @@ if not any(arg in sys.argv for arg in ('sdist', '--name', '--version', 'bdist_wh
 
 setup(
     name="dbio-cli",
-    version='1.4.0',
+    version='1.5.0',
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
     author='University of California Santa Cruz',
