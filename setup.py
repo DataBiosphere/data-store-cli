@@ -6,14 +6,14 @@ import sys
 
 install_requires = [line.rstrip() for line in open(os.path.join(os.path.dirname(__file__), "requirements.txt"))]
 
-if not any(arg in sys.argv for arg in ('sdist', '--name')):
+if not any(arg in sys.argv for arg in ('sdist', '--name', '--version')):
     sys.exit('The HCA module is deprecated, for assistance with accessing data '
              'please refer to the data-browser quick start guide at '
              'https://data.humancellatlas.org/guides/quick-start-guide')
 
 setup(
     name="dbio-cli",
-    version='1.2.0',
+    version='1.3.0',
     url='https://github.com/DataBiosphere/data-store-cli',
     license='MIT License',
     author='University of California Santa Cruz',
